@@ -1,4 +1,7 @@
+'use client';
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { MapPin, ChevronRight, Mountain, Users, ShieldCheck, Compass } from "lucide-react";
 
 const zones = [
@@ -32,6 +35,12 @@ const features = [
 ];
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-stone-950 font-[var(--font-inter)]">
       {/* Navbar */}
@@ -55,31 +64,31 @@ export default function Home() {
         </div>
       </nav>
 
-      <section className="relative flex flex-col items-center justify-center text-center min-h-[90vh] px-6 pt-24 overflow-hidden">
+      <section className="relative flex flex-col items-center justify-center text-center min-h-[95vh] px-6 pt-24 overflow-hidden">
         {/* New Hero Background Image with Animation */}
         <div className="absolute inset-0 -z-20 scale-110">
           <img 
             src="/hero-cave.png" 
             alt="Cave Interior" 
-            className="w-full h-full object-cover opacity-50 brightness-75 animate-ken-burns"
+            className="w-full h-full object-cover opacity-60 brightness-[0.8] animate-ken-burns"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-stone-950 via-stone-950/40 to-stone-950" />
         </div>
 
-        {/* Floating Particles Overlay */}
+        {/* Floating Particles Overlay - Visible only after mount to avoid hydration mismatch */}
         <div className="absolute inset-0 -z-15 pointer-events-none overflow-hidden">
-          {[...Array(15)].map((_, i) => (
+          {mounted && [...Array(25)].map((_, i) => (
             <div 
               key={i}
               className="particle"
               style={{
-                width: `${Math.random() * 6 + 2}px`,
-                height: `${Math.random() * 6 + 2}px`,
+                width: `${Math.random() * 8 + 3}px`,
+                height: `${Math.random() * 8 + 3}px`,
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animation: `float-particle ${Math.random() * 10 + 10}s linear infinite`,
-                animationDelay: `${Math.random() * 5}s`,
-                opacity: Math.random() * 0.5
+                animation: `float-particle ${Math.random() * 15 + 10}s linear infinite`,
+                animationDelay: `${Math.random() * 8}s`,
+                opacity: Math.random() * 0.7 + 0.3
               }}
             />
           ))}
@@ -87,7 +96,7 @@ export default function Home() {
 
         {/* Background glow overlay */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-emerald-900/10 blur-[120px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-emerald-900/20 blur-[120px]" />
         </div>
 
         <div className="inline-flex items-center gap-2 bg-emerald-950/60 border border-emerald-800/50 text-emerald-400 text-xs font-semibold px-4 py-2 rounded-full mb-8 backdrop-blur-sm">
@@ -95,7 +104,7 @@ export default function Home() {
           13 regioni · 60+ grotte certificate
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl text-white">
+        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl text-white drop-shadow-2xl">
           Esplora le{" "}
           <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
             profondità
