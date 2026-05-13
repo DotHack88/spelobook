@@ -107,21 +107,21 @@ const MOCK_CAVES: Record<string, Grotta[]> = {
   sicilia: [
     {
       id: 'sic-1', zona_id: '5', slug: 'grotta-del-gelo', nome: 'Grotta del Gelo',
-      tipologia: 'vulcanica', difficolta: 'difficile', profondita_mt: 40, lunghezza_mt: 200,
+      tipologia: 'lavica', difficolta: 'difficile', profondita_mt: 40, lunghezza_mt: 200,
       max_persone: 8, min_persone: 3,
       immagini: ['https://images.unsplash.com/photo-1599320502120-e4b77f98e169?auto=format&fit=crop&q=80&w=800'],
       descrizione: "Tubo di lava sull'Etna che custodisce un ghiacciaio perenne a 2.040 metri di quota. Un'anomalia climatica straordinaria: ghiaccio permanente all'interno di un vulcano attivo.",
     },
     {
       id: 'sic-2', zona_id: '5', slug: 'grotta-dei-tre-livelli', nome: 'Grotta dei Tre Livelli',
-      tipologia: 'vulcanica', difficolta: 'media', profondita_mt: 30, lunghezza_mt: 450,
+      tipologia: 'lavica', difficolta: 'media', profondita_mt: 30, lunghezza_mt: 450,
       max_persone: 12, min_persone: 2,
       immagini: ['https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&q=80&w=800'],
       descrizione: "Uno dei tubi di lava più lunghi e complessi dell'Etna, sviluppato su tre livelli sovrapposti. Le morfologie vulcaniche di stalattiti di lava e drappeggi sono di rara bellezza.",
     },
     {
       id: 'sic-3', zona_id: '5', slug: 'grotta-dei-lamponi', nome: 'Grotta dei Lamponi',
-      tipologia: 'vulcanica', difficolta: 'facile', profondita_mt: 15, lunghezza_mt: 320,
+      tipologia: 'lavica', difficolta: 'facile', profondita_mt: 15, lunghezza_mt: 320,
       max_persone: 20, min_persone: 2,
       immagini: ['https://images.unsplash.com/photo-1518331566838-898ea6f6631f?auto=format&fit=crop&q=80&w=800'],
       descrizione: "Classico tubo di lava etneo, molto conosciuto per le caratteristiche morfologiche tipiche dei condotti di scorrimento lavico. Ideale per chi si avvicina alla speleologia vulcanica.",
