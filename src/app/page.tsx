@@ -64,92 +64,98 @@ export default function Home() {
         </div>
       </nav>
 
-      <section className="relative flex flex-col items-center justify-center text-center min-h-[95vh] px-6 pt-24 overflow-hidden bg-stone-950">
-        {/* Background Image - Moved to -z-10 to be visible over the base color */}
-        <div className="absolute inset-0 -z-10 scale-110">
-          <img 
-            src="/hero-cave.png" 
-            alt="Cave Interior" 
-            className="w-full h-full object-cover opacity-70 brightness-110 animate-ken-burns"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-transparent to-stone-950" />
-        </div>
-
-        {/* Floating Particles Overlay - Moved to -z-5 */}
-        <div className="absolute inset-0 -z-5 pointer-events-none overflow-hidden">
-          {mounted && [...Array(30)].map((_, i) => (
-            <div 
-              key={i}
-              className="particle"
-              style={{
-                width: `${Math.random() * 8 + 4}px`,
-                height: `${Math.random() * 8 + 4}px`,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animation: `float-particle ${Math.random() * 12 + 8}s linear infinite`,
-                animationDelay: `${Math.random() * 5}s`,
-                background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgba(16, 185, 129, 0.6)' : 'rgba(34, 211, 238, 0.6)'} 0%, transparent 70%)`,
-                opacity: Math.random() * 0.8 + 0.2
-              }}
+      <section className="relative flex flex-col items-center justify-center text-center min-h-[95vh] px-6 pt-24 overflow-hidden">
+        {/* Background Layer - No negative z-index to avoid stacking context issues */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-stone-950" /> {/* Base color */}
+          <div className="absolute inset-0 overflow-hidden">
+            <img 
+              src="/hero-cave.png" 
+              alt="Cave Interior" 
+              className="w-full h-full object-cover opacity-80 brightness-110 animate-ken-burns"
             />
-          ))}
-        </div>
-
-        {/* Glow Effects */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-emerald-500/10 blur-[120px] -z-5" />
-
-        <div className="inline-flex items-center gap-2 bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-4 py-2 rounded-full mb-8 backdrop-blur-md shadow-lg shadow-emerald-500/10">
-          <MapPin size={12} />
-          13 regioni · 60+ grotte certificate
-        </div>
-
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl text-white drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">
-          Esplora le{" "}
-          <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
-            profondità
-          </span>{" "}
-          d&apos;Italia
-        </h1>
-
-        <p className="text-stone-200 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed drop-shadow-md font-medium">
-          SpeloBook è la piattaforma professionale per prenotare escursioni speleologiche in gruppo.
-          Scegli la grotta, seleziona le date e invia i dati del tuo team in pochi click.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 mb-20">
-          <Link
-            href="/prenota"
-            className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-base font-semibold px-8 py-4 rounded-full transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-emerald-500/40"
-          >
-            Inizia a Prenotare <ChevronRight size={18} />
-          </Link>
-          <Link
-            href="/grotte"
-            className="flex items-center justify-center gap-2 border border-stone-700 bg-stone-900/40 backdrop-blur-md text-stone-100 hover:bg-stone-800 hover:text-white text-base font-medium px-8 py-4 rounded-full transition-all"
-          >
-            Scopri il Catalogo
-          </Link>
-        </div>
-
-        {/* Stats bar with gradient hover effect */}
-        <div className="group/stats w-full max-w-4xl bg-stone-900/40 backdrop-blur-xl border border-stone-800 rounded-3xl p-8 grid grid-cols-3 divide-x divide-stone-800 relative overflow-hidden transition-all hover:border-emerald-500/30 hover:shadow-2xl hover:shadow-emerald-500/5">
-          {/* Hover Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-cyan-500/10 opacity-0 group-hover/stats:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/20 to-stone-950" />
+          </div>
           
-          {[
-            { label: "Grotte Attive", value: "60+", color: "text-emerald-400" },
-            { label: "Regioni", value: "13", color: "text-teal-400" },
-            { label: "Sicurezza", value: "100%", color: "text-cyan-400" },
-          ].map((s) => (
-            <div key={s.label} className="text-center px-4 md:px-6 relative z-10 transition-transform group-hover/stats:scale-105 duration-300">
-              <p className={`text-3xl md:text-4xl font-black mb-2 tracking-tighter ${s.color} transition-colors group-hover/stats:text-white`}>
-                {s.value}
-              </p>
-              <p className="text-[10px] md:text-xs text-stone-500 uppercase tracking-[0.2em] font-bold group-hover/stats:text-stone-300">
-                {s.label}
-              </p>
-            </div>
-          ))}
+          {/* Floating Particles - Now in a safe stacking layer */}
+          <div className="absolute inset-0 overflow-hidden">
+            {mounted && [...Array(40)].map((_, i) => (
+              <div 
+                key={i}
+                className="particle"
+                style={{
+                  width: `${Math.random() * 6 + 4}px`,
+                  height: `${Math.random() * 6 + 4}px`,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animation: `float-particle ${Math.random() * 10 + 10}s linear infinite`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgba(16, 185, 129, 0.7)' : 'rgba(34, 211, 238, 0.7)'} 0%, transparent 70%)`,
+                  opacity: Math.random() * 0.6 + 0.4
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Center Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-emerald-500/15 blur-[120px]" />
+        </div>
+
+        {/* Content Layer - Explicitly on top */}
+        <div className="relative z-10 flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-4 py-2 rounded-full mb-8 backdrop-blur-md shadow-lg shadow-emerald-500/10">
+            <MapPin size={12} />
+            13 regioni · 60+ grotte certificate
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl text-white drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)]">
+            Esplora le{" "}
+            <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+              profondità
+            </span>{" "}
+            d&apos;Italia
+          </h1>
+
+          <p className="text-stone-200 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed drop-shadow-lg font-medium">
+            SpeloBook è la piattaforma professionale per prenotare escursioni speleologiche in gruppo.
+            Scegli la grotta, seleziona le date e invia i dati del tuo team in pochi click.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 mb-20">
+            <Link
+              href="/prenota"
+              className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-base font-semibold px-8 py-4 rounded-full transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-emerald-500/40"
+            >
+              Inizia a Prenotare <ChevronRight size={18} />
+            </Link>
+            <Link
+              href="/grotte"
+              className="flex items-center justify-center gap-2 border border-stone-700 bg-stone-900/40 backdrop-blur-md text-stone-100 hover:bg-stone-800 hover:text-white text-base font-medium px-8 py-4 rounded-full transition-all"
+            >
+              Scopri il Catalogo
+            </Link>
+          </div>
+
+          {/* Stats bar with gradient hover effect */}
+          <div className="group/stats w-full max-w-4xl bg-stone-900/40 backdrop-blur-xl border border-stone-800 rounded-3xl p-8 grid grid-cols-3 divide-x divide-stone-800 relative overflow-hidden transition-all hover:border-emerald-500/30 hover:shadow-2xl hover:shadow-emerald-500/5">
+            {/* Hover Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-cyan-500/10 opacity-0 group-hover/stats:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            
+            {[
+              { label: "Grotte Attive", value: "60+", color: "text-emerald-400" },
+              { label: "Regioni", value: "13", color: "text-teal-400" },
+              { label: "Sicurezza", value: "100%", color: "text-cyan-400" },
+            ].map((s) => (
+              <div key={s.label} className="text-center px-4 md:px-6 relative z-10 transition-transform group-hover/stats:scale-105 duration-300">
+                <p className={`text-3xl md:text-4xl font-black mb-2 tracking-tighter ${s.color} transition-colors group-hover/stats:text-white`}>
+                  {s.value}
+                </p>
+                <p className="text-[10px] md:text-xs text-stone-500 uppercase tracking-[0.2em] font-bold group-hover/stats:text-stone-300">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
