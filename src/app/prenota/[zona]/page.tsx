@@ -96,9 +96,6 @@ const MOCK_CAVES: Record<string, Grotta[]> = {
     { id: 'abr-4', zona_id: '13', slug: 'abisso-del-bivacco', nome: 'Abisso del Bivacco', tipologia: 'carsica', difficolta: 'esperta', profondita_mt: 400, lunghezza_mt: 1500, max_persone: 4, min_persone: 2, immagini: ['https://images.unsplash.com/photo-1599320502120-e4b77f98e169?auto=format&fit=crop&q=80&w=800'], descrizione: "Profondo abisso nella Maiella." },
     { id: 'abr-5', zona_id: '13', slug: 'grotta-di-beatrice-cenci', nome: 'Grotta di Beatrice Cenci', tipologia: 'carsica', difficolta: 'facile', profondita_mt: 20, lunghezza_mt: 350, max_persone: 20, min_persone: 2, immagini: ['https://images.unsplash.com/photo-1499578124509-1611b77778c8?auto=format&fit=crop&q=80&w=800'], descrizione: "Piccola e suggestiva grotta con reperti storici." },
   ],
-};ive.",
-    },
-  ],
 };
 
 export default async function ZonaPage({ params }: { params: Promise<{ zona: string }> }) {
