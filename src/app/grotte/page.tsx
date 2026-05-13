@@ -54,6 +54,14 @@ const REGIONI: { regione: string; emoji: string; slug: string; grotte: { nome: s
     { nome: 'Grotte di Pastena', tipo: 'carsica', emoji: '🪨', nota: 'Cascate e laghetti sotterranei' },
     { nome: 'Catacombe di Roma', tipo: 'artificiale', emoji: '🏛️', nota: 'Oltre 60 km di gallerie funerarie paleocristiane' },
   ]},
+  { regione: 'Liguria', emoji: '🌊', slug: 'liguria', grotte: [
+    { nome: 'Grotte di Toirano', tipo: 'carsica', emoji: '🪨', nota: 'Famosa per il "Cimitero degli Orsi" e impronte preistoriche' },
+    { nome: 'Grotte di Borgio Verezzi', tipo: 'carsica', emoji: '🪨', nota: 'Le grotte più colorate d\'Italia per i minerali rari' },
+  ]},
+  { regione: 'Lombardia', emoji: '🏔️', slug: 'lombardia', grotte: [
+    { nome: 'Buco del Frate', tipo: 'carsica', emoji: '🪨', nota: 'Suggestivo sistema carsico nelle Prealpi Bresciane' },
+    { nome: 'Grotte di Rescia', tipo: 'carsica', emoji: '🪨', nota: 'Cascate di travertino sul Lago di Lugano' },
+  ]},
 ];
 
 const coloriTipo: Record<string, string> = {
@@ -105,7 +113,7 @@ export default function GrottePage() {
             <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Grotte d'Italia</span>
           </h1>
           <p className="text-stone-400 text-lg max-w-2xl mx-auto">
-            8 tipologie geologiche, 45+ grotte famose, 8 regioni. 
+            8 tipologie geologiche, 55+ grotte famose, 10 regioni. 
             L'Italia è uno dei paesi europei con la maggiore densità di cavità naturali.
           </p>
         </div>
@@ -187,7 +195,7 @@ export default function GrottePage() {
                 <div className="space-y-4">
                    <div className="flex items-center gap-4 p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
                       <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
-                         <span className="font-bold">45+</span>
+                         <span className="font-bold">55+</span>
                       </div>
                       <span className="text-sm text-stone-300">Grotte censite e pronte per la prenotazione</span>
                    </div>
@@ -252,7 +260,7 @@ export default function GrottePage() {
                   <h3 className="font-bold text-white flex items-center gap-2">
                     <span className="text-xl">{r.emoji}</span> {r.regione}
                   </h3>
-                  {r.slug && ['calabria','puglia','sardegna','friuli','sicilia'].includes(r.slug) && (
+                  {r.slug && ['calabria','puglia','sardegna','friuli','sicilia','campania','liguria','lombardia'].includes(r.slug) && (
                     <Link href={`/prenota/${r.slug}`} className="text-emerald-400 hover:text-emerald-300 text-xs flex items-center gap-1 transition-colors">
                       Prenota <ChevronRight size={12} />
                     </Link>

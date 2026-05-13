@@ -46,6 +46,30 @@ const MOCK_ZONES: Zona[] = [
     descrizione: 'L\'unica destinazione italiana per la speleologia vulcanica. Tubi di lava, ghiacciai perenni e grotte marine di Capri: esperienze uniche al mondo sull\'Etna.',
     immagine_url: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&q=80&w=800'
   },
+  {
+    id: '6',
+    nome: 'Grotte della Campania',
+    regione: 'Campania',
+    slug: 'campania',
+    descrizione: 'Dal fiume sotterraneo di Pertosa alle cavità marine della Costiera. La Campania offre un mix unico di speleologia carsica e archeologia sotterranea.',
+    immagine_url: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '7',
+    nome: 'Speleologia Ligure',
+    regione: 'Liguria',
+    slug: 'liguria',
+    descrizione: 'Grotte affacciate sul mare e sistemi carsici millenari. Le Grotte di Toirano e Borgio Verezzi sono icone del turismo speleologico internazionale.',
+    immagine_url: 'https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '8',
+    nome: 'Sottosuolo Lombardo',
+    regione: 'Lombardia',
+    slug: 'lombardia',
+    descrizione: 'Esplora le profondità delle Prealpi e delle zone lacustri. Dai sistemi carsici del Buco del Frate alle formazioni glaciali alpine.',
+    immagine_url: 'https://images.unsplash.com/photo-1499578124509-1611b77778c8?auto=format&fit=crop&q=80&w=800'
+  },
 ];
 
 export default async function PrenotaPage() {
