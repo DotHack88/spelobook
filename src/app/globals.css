@@ -139,3 +139,29 @@
   --background: transparent;
   --ring: oklch(0.696 0.17 162.48);
 }
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Custom thin scrollbar for regions */
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 3px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.2);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 185, 129, 0.4);
+  }
+}

@@ -129,7 +129,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="flex gap-4 overflow-x-auto pb-8 custom-scrollbar snap-x snap-mandatory px-4 -mx-4 md:px-0 md:mx-0">
           {[
             { nome: "Sicilia", slug: "sicilia", emoji: "🌋" },
             { nome: "Toscana", slug: "toscana", emoji: "🍷" },
@@ -137,11 +137,15 @@ export default function Home() {
             { nome: "Puglia", slug: "puglia", emoji: "🌊" },
             { nome: "Sardegna", slug: "sardegna", emoji: "🪸" },
             { nome: "Lazio", slug: "lazio", emoji: "🏛️" },
+            { nome: "Calabria", slug: "calabria", emoji: "🌶️" },
+            { nome: "Friuli", slug: "friuli", emoji: "❄️" },
+            { nome: "Liguria", slug: "liguria", emoji: "🌊" },
+            { nome: "Abruzzo", slug: "abruzzo", emoji: "🐻" },
           ].map((z) => (
             <Link
               key={z.slug}
               href={`/prenota/${z.slug}`}
-              className="group bg-stone-900/40 hover:bg-emerald-950/20 border border-stone-800 hover:border-emerald-500/30 rounded-3xl p-6 transition-all duration-300 text-center"
+              className="flex-shrink-0 w-[160px] md:w-[180px] snap-center group bg-stone-900/40 hover:bg-emerald-950/20 border border-stone-800 hover:border-emerald-500/30 rounded-3xl p-6 transition-all duration-300 text-center"
             >
               <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">{z.emoji}</div>
               <h3 className="text-white font-bold text-sm">{z.nome}</h3>
