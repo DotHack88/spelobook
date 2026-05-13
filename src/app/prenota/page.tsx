@@ -70,6 +70,46 @@ const MOCK_ZONES: Zona[] = [
     descrizione: 'Esplora le profondità delle Prealpi e delle zone lacustri. Dai sistemi carsici del Buco del Frate alle formazioni glaciali alpine.',
     immagine_url: 'https://images.unsplash.com/photo-1499578124509-1611b77778c8?auto=format&fit=crop&q=80&w=800'
   },
+  {
+    id: '9',
+    nome: 'Grotte delle Marche',
+    regione: 'Marche',
+    slug: 'marche',
+    descrizione: 'Custode delle Grotte di Frasassi, uno dei complessi ipogei più maestosi al mondo. Un viaggio unico nel "ventre della terra".',
+    immagine_url: 'https://images.unsplash.com/photo-1576435728678-68d0fbf94946?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '10',
+    nome: 'Sotterranei del Lazio',
+    regione: 'Lazio',
+    slug: 'lazio',
+    descrizione: 'Dalle Grotte di Pastena ai pozzi tettonici più profondi. Un territorio ricco di storia sotterranea e formazioni geologiche uniche.',
+    immagine_url: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '11',
+    nome: 'Speleologia Toscana',
+    regione: 'Toscana',
+    slug: 'toscana',
+    descrizione: 'Dalle Alpi Apuane al Monte Amiata. La Grotta del Vento e l\'Antro del Corchia sono perle della speleologia mondiale.',
+    immagine_url: 'https://images.unsplash.com/photo-1518331566838-898ea6f6631f?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '12',
+    nome: 'Abissi del Piemonte',
+    regione: 'Piemonte',
+    slug: 'piemonte',
+    descrizione: 'Sistemi carsici alpini di straordinaria bellezza. La Grotta di Bossea e i grandi abissi delle Alpi Marittime.',
+    immagine_url: 'https://images.unsplash.com/photo-1599320502120-e4b77f98e169?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '13',
+    nome: 'Grotte d\'Abruzzo',
+    regione: 'Abruzzo',
+    slug: 'abruzzo',
+    descrizione: 'Il cuore selvaggio dell\'Appennino. Le Grotte di Stiffe, con il loro torrente sotterraneo, sono uniche in Italia.',
+    immagine_url: 'https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&q=80&w=800'
+  },
 ];
 
 export default async function PrenotaPage() {

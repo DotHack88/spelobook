@@ -20,47 +20,92 @@ const REGIONI: { regione: string; emoji: string; slug: string; grotte: { nome: s
     { nome: 'Grotta del Gelo', tipo: 'lavica', emoji: '🧊', nota: 'Ghiacciaio perenne sull\'Etna a 2.040m' },
     { nome: 'Grotta dei Tre Livelli', tipo: 'lavica', emoji: '🌋', nota: 'Tubo di lava su 3 livelli sovrapposti' },
     { nome: 'Grotta dei Lamponi', tipo: 'lavica', emoji: '🌋', nota: 'Classico tubo di lava etneo' },
-    { nome: 'Grotta Azzurra (Capri)', tipo: 'marina', emoji: '🌊', nota: 'Celebre per il blu intenso dell\'acqua' },
+    { nome: 'Grotta di Serracozzo', tipo: 'lavica', emoji: '🌋', nota: 'Tunnel con suggestivo crollo terminale' },
+    { nome: 'Abisso della Scinduta', tipo: 'carsica', emoji: '🪨', nota: 'Pozzo tecnico nelle Madonie' },
   ]},
   { regione: 'Sardegna', emoji: '🪸', slug: 'sardegna', grotte: [
     { nome: 'Grotta di Nettuno', tipo: 'marina', emoji: '🌊', nota: 'Accessibile via mare o dalla "Escala del Cabirol"' },
     { nome: 'Grotta del Bue Marino', tipo: 'marina', emoji: '🌊', nota: 'Ex rifugio della foca monaca a Cala Gonone' },
     { nome: 'Grotta di Su Mannau', tipo: 'carsica', emoji: '🪨', nota: '8,5 km di gallerie con laghi sotterranei' },
     { nome: 'Grotta di Su Marmuri', tipo: 'carsica', emoji: '🪨', nota: '"La cattedrale del Supramonte" — sale fino a 50m' },
+    { nome: 'Grotta di Ispinigoli', tipo: 'carsica', emoji: '🪨', nota: 'Colonna stalagmitica tra le più alte d\'Europa' },
   ]},
   { regione: 'Puglia', emoji: '🫒', slug: 'puglia', grotte: [
     { nome: 'Grotte di Castellana', tipo: 'carsica', emoji: '🪨', nota: 'La "Grotta Bianca" è la più splendente al mondo' },
     { nome: 'Grotta della Zinzulusa', tipo: 'marina', emoji: '🌊', nota: 'Fauna endemica rarissima a Castro' },
-    { nome: 'Grotta della Poesia', tipo: 'marina', emoji: '🌊', nota: 'Iscrizioni micenee — tra i siti epigrafici più importanti' },
+    { nome: 'Grotta della Poesia', tipo: 'marina', emoji: '🌊', nota: 'Iscrizioni micenee — sito epigrafico unico' },
+    { nome: 'Grotta Palazzese', tipo: 'marina', emoji: '🌊', nota: 'Celebre ristorante ipogeo sul mare' },
+    { nome: 'Abisso di Rotolo', tipo: 'carsica', emoji: '🪨', nota: 'La più profonda della Puglia (264m)' },
   ]},
   { regione: 'Marche', emoji: '🏔️', slug: 'marche', grotte: [
     { nome: 'Grotte di Frasassi', tipo: 'carsica', emoji: '🪨', nota: '"Abisso Ancona" — tra le più grandi d\'Europa' },
+    { nome: 'Grotta del Vernino', tipo: 'carsica', emoji: '🪨', nota: 'Suggestiva cavità nell\'Appennino' },
+    { nome: 'Grotta di Monte Cucco', tipo: 'carsica', emoji: '🪨', nota: 'Sistema vasto e profondo (922m)' },
+    { nome: 'Grotta del Fiume', tipo: 'carsica', emoji: '🪨', nota: 'Percorso attivo lungo il ruscello ipogeo' },
+    { nome: 'Abisso di Faggeto', tipo: 'carsica', emoji: '🪨', nota: 'Cavità tecnica verticale' },
   ]},
   { regione: 'Friuli-VG', emoji: '❄️', slug: 'friuli', grotte: [
-    { nome: 'Grotta Gigante', tipo: 'carsica', emoji: '🪨', nota: 'La sala unica più grande al mondo per turisti' },
+    { nome: 'Grotta Gigante', tipo: 'carsica', emoji: '🪨', nota: 'La sala unica più grande al mondo' },
     { nome: 'Abisso di Trebiciano', tipo: 'carsica', emoji: '🪨', nota: 'Scorre il fiume Timavo sotterraneo' },
+    { nome: 'Grotta Impossibile', tipo: 'carsica', emoji: '🪨', nota: 'Enormi gallerie scoperte recentemente' },
+    { nome: 'Grotta di Villanova', tipo: 'carsica', emoji: '🪨', nota: 'Importante grotta di contatto' },
+    { nome: 'Grotta Doviza', tipo: 'carsica', emoji: '🪨', nota: 'Ricca di fauna ipogea' },
   ]},
   { regione: 'Campania', emoji: '🌋', slug: 'campania', grotte: [
-    { nome: 'Grotta Azzurra (Capri)', tipo: 'marina', emoji: '🌊', nota: 'Luce blu per rifrazione solare' },
     { nome: 'Grotte di Pertosa', tipo: 'carsica', emoji: '🪨', nota: 'Navigabile in barca su fiume sotterraneo' },
-    { nome: 'Napoli Sotterranea', tipo: 'artificiale', emoji: '🏛️', nota: 'Cunicoli greco-romani sotto il centro storico' },
+    { nome: 'Grotta dello Smeraldo', tipo: 'marina', emoji: '🌊', nota: 'Luce smeraldo per rifrazione' },
+    { nome: 'Grotte di Castelcivita', tipo: 'carsica', emoji: '🪨', nota: 'Vasto complesso alle porte del Cilento' },
+    { nome: 'Grotta Azzurra (Capri)', tipo: 'marina', emoji: '🌊', nota: 'Luce blu per rifrazione solare' },
+    { nome: 'Grotta del Melo', tipo: 'carsica', emoji: '🪨', nota: 'Cavità tecnica con ampie sale' },
   ]},
   { regione: 'Calabria', emoji: '🏔️', slug: 'calabria', grotte: [
     { nome: 'Abisso del Bifurto', tipo: 'carsica', emoji: '🪨', nota: '683m di profondità nel Pollino' },
     { nome: 'Grotta delle Ninfe', tipo: 'carsica', emoji: '🪨', nota: 'Acque sulfuree e percorso facile' },
     { nome: 'Grotta del Romito', tipo: 'carsica', emoji: '🪨', nota: 'Incisioni paleolitiche del bos primigenius' },
+    { nome: 'Grotta di Lamia', tipo: 'carsica', emoji: '🪨', nota: 'Sale concrezionate molto ampie' },
+    { nome: 'Grotta del Fiume', tipo: 'carsica', emoji: '🪨', nota: 'Sistema attivo nel Pollino' },
   ]},
   { regione: 'Lazio', emoji: '🏛️', slug: 'lazio', grotte: [
     { nome: 'Grotte di Pastena', tipo: 'carsica', emoji: '🪨', nota: 'Cascate e laghetti sotterranei' },
-    { nome: 'Catacombe di Roma', tipo: 'artificiale', emoji: '🏛️', nota: 'Oltre 60 km di gallerie funerarie paleocristiane' },
+    { nome: 'Grotta di Collepardo', tipo: 'carsica', emoji: '🪨', nota: '"La Regina" per maestosità delle sale' },
+    { nome: 'Pozzo del Merro', tipo: 'tettonica', emoji: '⛰️', nota: 'Sinkhole allagato più profondo al mondo' },
+    { nome: 'Grotta Ciccio Felice', tipo: 'carsica', emoji: '🪨', nota: 'Importante sito archeologico' },
+    { nome: 'Grotta Guattari', tipo: 'marina', emoji: '🌊', nota: 'Famosa per i resti neandertaliani' },
   ]},
   { regione: 'Liguria', emoji: '🌊', slug: 'liguria', grotte: [
-    { nome: 'Grotte di Toirano', tipo: 'carsica', emoji: '🪨', nota: 'Famosa per il "Cimitero degli Orsi" e impronte preistoriche' },
-    { nome: 'Grotte di Borgio Verezzi', tipo: 'carsica', emoji: '🪨', nota: 'Le grotte più colorate d\'Italia per i minerali rari' },
+    { nome: 'Grotte di Toirano', tipo: 'carsica', emoji: '🪨', nota: 'Cimitero degli Orsi e impronte preistoriche' },
+    { nome: 'Grotte di Borgio Verezzi', tipo: 'carsica', emoji: '🪨', nota: 'Le grotte più colorate d\'Italia' },
+    { nome: 'Arma di Taggia', tipo: 'carsica', emoji: '🪨', nota: 'Sito preistorico di rilievo' },
+    { nome: 'Grotta di Bergeggi', tipo: 'marina', emoji: '🌊', nota: 'Grotta marina con reperti' },
+    { nome: 'Abisso Meraviglie', tipo: 'carsica', emoji: '🪨', nota: 'Cavità tecnica verticale' },
   ]},
   { regione: 'Lombardia', emoji: '🏔️', slug: 'lombardia', grotte: [
-    { nome: 'Buco del Frate', tipo: 'carsica', emoji: '🪨', nota: 'Suggestivo sistema carsico nelle Prealpi Bresciane' },
+    { nome: 'Grotta di Ferrera', tipo: 'carsica', emoji: '🪨', nota: 'Suggestiva cavità vicino al Lago di Como' },
     { nome: 'Grotte di Rescia', tipo: 'carsica', emoji: '🪨', nota: 'Cascate di travertino sul Lago di Lugano' },
+    { nome: 'Bus di Garibaldi', tipo: 'carsica', emoji: '🪨', nota: 'Ricca di storia e leggende locali' },
+    { nome: 'Grotta di Remaron', tipo: 'carsica', emoji: '🪨', nota: 'Importante sito carsico varesino' },
+    { nome: 'Buco del Frate', tipo: 'carsica', emoji: '🪨', nota: 'Ideale per prime esplorazioni' },
+  ]},
+  { regione: 'Toscana', emoji: '🍷', slug: 'toscana', grotte: [
+    { nome: 'Grotta del Vento', tipo: 'carsica', emoji: '🪨', nota: 'Icona della Garfagnana' },
+    { nome: 'Antro del Corchia', tipo: 'carsica', emoji: '🪨', nota: 'Tra i sistemi più vasti d\'Europa' },
+    { nome: 'Grotta Giusti', tipo: 'carsica', emoji: '🪨', nota: 'Termalismo ipogeo unico' },
+    { nome: 'Grotta del Maona', tipo: 'carsica', emoji: '🪨', nota: 'Due pozzi di entrata e uscita' },
+    { nome: 'Abisso Olivifer', tipo: 'carsica', emoji: '🪨', nota: 'Il più profondo della Toscana' },
+  ]},
+  { regione: 'Piemonte', emoji: '🏔️', slug: 'piemonte', grotte: [
+    { nome: 'Grotta di Bossea', tipo: 'carsica', emoji: '🪨', nota: 'Prima grotta turistica d\'Italia' },
+    { nome: 'Grotte di Caudano', tipo: 'carsica', emoji: '🪨', nota: 'Vasto complesso nel cuneese' },
+    { nome: 'Abisso Fighiera', tipo: 'carsica', emoji: '🪨', nota: 'Tecnico e di altissima difficoltà' },
+    { nome: 'Buco della Piastra', tipo: 'carsica', emoji: '🪨', nota: 'Ampi saloni suggestivi' },
+    { nome: 'Rio Martino', tipo: 'carsica', emoji: '🪨', nota: 'Cascate ipogee spettacolari' },
+  ]},
+  { regione: 'Abruzzo', emoji: '🐻', slug: 'abruzzo', grotte: [
+    { nome: 'Grotte di Stiffe', tipo: 'carsica', emoji: '🪨', nota: 'Risorgenza attiva nel cuore dell\'Appennino' },
+    { nome: 'Grotta del Cavallone', tipo: 'carsica', emoji: '🪨', nota: 'Celebre "Grotta della Figlia di Iorio"' },
+    { nome: 'Fiamme Gialle', tipo: 'carsica', emoji: '🪨', nota: 'Cavità tecnica con pozzi' },
+    { nome: 'Abisso del Bivacco', tipo: 'carsica', emoji: '🪨', nota: 'Profondo abisso nella Maiella' },
+    { nome: 'Beatrice Cenci', tipo: 'carsica', emoji: '🪨', nota: 'Piccola e ricca di storia' },
   ]},
 ];
 
@@ -113,7 +158,7 @@ export default function GrottePage() {
             <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Grotte d'Italia</span>
           </h1>
           <p className="text-stone-400 text-lg max-w-2xl mx-auto">
-            8 tipologie geologiche, 55+ grotte famose, 10 regioni. 
+            8 tipologie geologiche, 60+ grotte famose, 13 regioni. 
             L'Italia è uno dei paesi europei con la maggiore densità di cavità naturali.
           </p>
         </div>
@@ -195,7 +240,7 @@ export default function GrottePage() {
                 <div className="space-y-4">
                    <div className="flex items-center gap-4 p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
                       <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
-                         <span className="font-bold">55+</span>
+                         <span className="font-bold">60+</span>
                       </div>
                       <span className="text-sm text-stone-300">Grotte censite e pronte per la prenotazione</span>
                    </div>
@@ -260,7 +305,7 @@ export default function GrottePage() {
                   <h3 className="font-bold text-white flex items-center gap-2">
                     <span className="text-xl">{r.emoji}</span> {r.regione}
                   </h3>
-                  {r.slug && ['calabria','puglia','sardegna','friuli','sicilia','campania','liguria','lombardia'].includes(r.slug) && (
+                  {r.slug && ['calabria','puglia','sardegna','friuli','sicilia','campania','liguria','lombardia','marche','lazio','toscana','piemonte','abruzzo'].includes(r.slug) && (
                     <Link href={`/prenota/${r.slug}`} className="text-emerald-400 hover:text-emerald-300 text-xs flex items-center gap-1 transition-colors">
                       Prenota <ChevronRight size={12} />
                     </Link>
