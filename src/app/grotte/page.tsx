@@ -359,18 +359,25 @@ export default function GrottePage() {
                     </div>
                     <div className="divide-y divide-stone-800/50">
                       {grotteFiltrate.map((g) => (
-                        <div key={g.nome} className="px-6 py-4 flex items-start gap-4 hover:bg-stone-800/30 transition-colors">
-                          <span className="text-2xl shrink-0">{g.emoji}</span>
+                        <Link 
+                          key={g.nome} 
+                          href={`/prenota/${r.slug}`}
+                          className="group/cave px-6 py-4 flex items-start gap-4 hover:bg-emerald-500/5 transition-all cursor-pointer relative overflow-hidden"
+                        >
+                          <span className="text-2xl shrink-0 group-hover/cave:scale-110 transition-transform">{g.emoji}</span>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap mb-1">
-                              <p className="font-semibold text-white text-sm">{g.nome}</p>
+                              <p className="font-semibold text-white text-sm group-hover/cave:text-emerald-400 transition-colors">{g.nome}</p>
                               <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border capitalize ${coloriTipo[g.tipo]}`}>
                                 {g.tipo}
                               </span>
                             </div>
                             <p className="text-stone-400 text-xs leading-relaxed">{g.nota}</p>
                           </div>
-                        </div>
+                          <div className="self-center opacity-0 group-hover/cave:opacity-100 transition-opacity text-emerald-500">
+                             <ChevronRight size={16} />
+                          </div>
+                        </Link>
                       ))}
                     </div>
                   </div>
