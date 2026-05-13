@@ -133,6 +133,7 @@ const cardBorder: Record<string, string> = {
 
 export default function GrottePage() {
   const [regioneAttiva, setRegioneAttiva] = useState<string | null>(null);
+  const [selectedTipo, setSelectedTipo] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-stone-950 text-white">
@@ -165,11 +166,34 @@ export default function GrottePage() {
 
         {/* ─── TABELLA TIPOLOGIE ─── */}
         <section className="mb-24">
-          <h2 className="text-3xl font-bold mb-10 text-white">🗂️ Tipologie Geologiche</h2>
+          <div className="flex items-center justify-between mb-10">
+            <h2 className="text-3xl font-bold text-white flex items-center gap-3">🗂️ Tipologie Geologiche</h2>
+            {selectedTipo && (
+              <button 
+                onClick={() => setSelectedTipo(null)}
+                className="text-emerald-400 hover:text-emerald-300 text-sm font-semibold transition-colors"
+              >
+                Mostra tutte le tipologie
+              </button>
+            )}
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
             {TIPOLOGIE.map((t) => (
-              <div key={t.tipo} className={`group bg-stone-900/50 border rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${cardBorder[t.colore]}`}>
-                <div className="text-4xl mb-4">{t.emoji}</div>
+              <button 
+                key={t.tipo} 
+                onClick={() => {
+                  setSelectedTipo(t.tipo === selectedTipo ? null : t.tipo);
+                  if (t.tipo !== selectedTipo) {
+                    document.getElementById('lista-regioni')?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className={`group text-left bg-stone-900/50 border rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+                  selectedTipo === t.tipo 
+                  ? 'border-emerald-500 ring-2 ring-emerald-500/20 bg-emerald-950/20' 
+                  : cardBorder[t.colore]
+                }`}
+              >
+                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">{t.emoji}</div>
                 <div className="flex items-center gap-3 mb-3">
                   <h3 className="text-lg font-bold text-white">{t.label}</h3>
                   <span className={`text-[10px] font-bold px-2 py-1 rounded-full border uppercase tracking-wider ${coloriTipo[t.tipo]}`}>
@@ -189,7 +213,7 @@ export default function GrottePage() {
                   <p className="text-[10px] text-stone-500 uppercase tracking-widest mb-1">Zone principali</p>
                   <p className="text-xs text-stone-400">{t.zone.join(' · ')}</p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </section>
@@ -273,9 +297,22 @@ export default function GrottePage() {
         </section>
 
         {/* ─── LISTA PER REGIONE ─── */}
-        <section className="mb-24">
-          <h2 className="text-3xl font-bold mb-4 text-white">📍 Grotte Famose per Regione</h2>
-          <p className="text-stone-400 mb-10">Clicca su una regione per vedere le grotte disponibili.</p>
+        <section id="lista-regioni" className="mb-24 scroll-mt-24">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-2">📍 Grotte Famose per Regione</h2>
+              <p className="text-stone-400">
+                {selectedTipo 
+                  ? `Mostrando solo grotte di tipo "${selectedTipo.toUpperCase()}"` 
+                  : 'Clicca su una regione o su una tipologia sopra per filtrare.'}
+              </p>
+            </div>
+            {selectedTipo && (
+              <span className={`px-4 py-2 rounded-full text-xs font-bold border flex items-center gap-2 ${coloriTipo[selectedTipo]}`}>
+                Tipo: {selectedTipo.toUpperCase()}
+              </span>
+            )}
+          </div>
 
           {/* Pill selezione regione */}
           <div className="flex flex-wrap gap-3 mb-10">
@@ -298,36 +335,47 @@ export default function GrottePage() {
 
           {/* Grotte */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {REGIONI.filter(r => regioneAttiva === null || r.regione === regioneAttiva).map((r) => (
-              <div key={r.regione} className="bg-stone-900/50 border border-stone-800 rounded-3xl overflow-hidden">
-                <div className="px-6 py-4 border-b border-stone-800 flex items-center justify-between">
-                  <h3 className="font-bold text-white flex items-center gap-2">
-                    <span className="text-xl">{r.emoji}</span> {r.regione}
-                  </h3>
-                  {r.slug && ['calabria','puglia','sardegna','friuli','sicilia','campania','liguria','lombardia','marche','lazio','toscana','piemonte','abruzzo'].includes(r.slug) && (
-                    <Link href={`/prenota/${r.slug}`} className="text-emerald-400 hover:text-emerald-300 text-xs flex items-center gap-1 transition-colors">
-                      Prenota <ChevronRight size={12} />
-                    </Link>
-                  )}
-                </div>
-                <div className="divide-y divide-stone-800/50">
-                  {r.grotte.map((g) => (
-                    <div key={g.nome} className="px-6 py-4 flex items-start gap-4 hover:bg-stone-800/30 transition-colors">
-                      <span className="text-2xl shrink-0">{g.emoji}</span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <p className="font-semibold text-white text-sm">{g.nome}</p>
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border capitalize ${coloriTipo[g.tipo]}`}>
-                            {g.tipo}
-                          </span>
-                        </div>
-                        <p className="text-stone-400 text-xs leading-relaxed">{g.nota}</p>
-                      </div>
+            {REGIONI
+              .filter(r => regioneAttiva === null || r.regione === regioneAttiva)
+              .filter(r => selectedTipo === null || r.grotte.some(g => g.tipo === selectedTipo))
+              .map((r) => {
+                const grotteFiltrate = selectedTipo 
+                  ? r.grotte.filter(g => g.tipo === selectedTipo)
+                  : r.grotte;
+
+                if (grotteFiltrate.length === 0) return null;
+
+                return (
+                  <div key={r.regione} className="bg-stone-900/50 border border-stone-800 rounded-3xl overflow-hidden animate-in fade-in duration-500">
+                    <div className="px-6 py-4 border-b border-stone-800 flex items-center justify-between">
+                      <h3 className="font-bold text-white flex items-center gap-2">
+                        <span className="text-xl">{r.emoji}</span> {r.regione}
+                      </h3>
+                      {r.slug && ['calabria','puglia','sardegna','friuli','sicilia','campania','liguria','lombardia','marche','lazio','toscana','piemonte','abruzzo'].includes(r.slug) && (
+                        <Link href={`/prenota/${r.slug}`} className="text-emerald-400 hover:text-emerald-300 text-xs flex items-center gap-1 transition-colors">
+                          Prenota <ChevronRight size={12} />
+                        </Link>
+                      )}
                     </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+                    <div className="divide-y divide-stone-800/50">
+                      {grotteFiltrate.map((g) => (
+                        <div key={g.nome} className="px-6 py-4 flex items-start gap-4 hover:bg-stone-800/30 transition-colors">
+                          <span className="text-2xl shrink-0">{g.emoji}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap mb-1">
+                              <p className="font-semibold text-white text-sm">{g.nome}</p>
+                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border capitalize ${coloriTipo[g.tipo]}`}>
+                                {g.tipo}
+                              </span>
+                            </div>
+                            <p className="text-stone-400 text-xs leading-relaxed">{g.nota}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         </section>
 
