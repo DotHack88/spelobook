@@ -254,10 +254,9 @@ export default function GrottePage() {
               </div>
               <div className="relative aspect-square md:aspect-video rounded-2xl overflow-hidden border border-stone-800 bg-stone-950">
                 <img 
-                  src="/api/placeholder/800/600" 
+                  src="/hero-cave.png" 
                   alt="Mappa Speleologica d'Italia" 
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-1000"
-                  style={{ backgroundImage: `url('/mappa_speleologica_italia_premium_1778710732003.png')`, backgroundSize: 'cover' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent" />
                 

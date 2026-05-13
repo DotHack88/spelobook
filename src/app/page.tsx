@@ -56,19 +56,28 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center text-center min-h-screen px-6 pt-24 overflow-hidden">
-        {/* Background glow */}
+      <section className="relative flex flex-col items-center justify-center text-center min-h-[90vh] px-6 pt-24 overflow-hidden">
+        {/* New Hero Background Image */}
+        <div className="absolute inset-0 -z-20">
+          <img 
+            src="/hero-cave.png" 
+            alt="Cave Interior" 
+            className="w-full h-full object-cover opacity-40 brightness-75 scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-stone-950 via-stone-950/60 to-stone-950" />
+        </div>
+
+        {/* Background glow overlay */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-emerald-900/20 blur-[120px]" />
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-teal-900/20 blur-[100px]" />
         </div>
 
         <div className="inline-flex items-center gap-2 bg-emerald-950/60 border border-emerald-800/50 text-emerald-400 text-xs font-semibold px-4 py-2 rounded-full mb-8 backdrop-blur-sm">
           <MapPin size={12} />
-          4 regioni · 45+ grotte disponibili
+          13 regioni · 60+ grotte certificate
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl">
+        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl text-white">
           Esplora le{" "}
           <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
             profondità
@@ -76,8 +85,8 @@ export default function Home() {
           d&apos;Italia
         </h1>
 
-        <p className="text-stone-400 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
-          SpeloBook è la piattaforma di riferimento per prenotare escursioni speleologiche in gruppo.
+        <p className="text-stone-300 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
+          SpeloBook è la piattaforma professionale per prenotare escursioni speleologiche in gruppo.
           Scegli la grotta, seleziona le date e invia i dati del tuo team in pochi click.
         </p>
 
@@ -90,51 +99,62 @@ export default function Home() {
           </Link>
           <Link
             href="/grotte"
-            className="flex items-center justify-center gap-2 border border-stone-700 text-stone-300 hover:bg-stone-800 hover:text-white text-base font-medium px-8 py-4 rounded-full transition-all"
+            className="flex items-center justify-center gap-2 border border-stone-700 bg-stone-900/30 backdrop-blur-md text-stone-100 hover:bg-stone-800 hover:text-white text-base font-medium px-8 py-4 rounded-full transition-all"
           >
-            Scopri le Grotte
+            Scopri il Catalogo
           </Link>
         </div>
 
         {/* Stats bar */}
-        <div className="w-full max-w-3xl bg-stone-900/60 backdrop-blur-xl border border-stone-800 rounded-3xl p-6 grid grid-cols-3 divide-x divide-stone-800">
+        <div className="w-full max-w-4xl bg-stone-900/60 backdrop-blur-xl border border-stone-800 rounded-3xl p-6 grid grid-cols-3 divide-x divide-stone-800">
           {[
-            { label: "Grotte Attive", value: "45+" },
-            { label: "Regioni", value: "4" },
-            { label: "Prenotazioni", value: "1.2K+" },
+            { label: "Grotte Attive", value: "60+" },
+            { label: "Regioni", value: "13" },
+            { label: "Sicurezza", value: "100%" },
           ].map((s) => (
-            <div key={s.label} className="text-center px-6">
-              <p className="text-3xl font-extrabold text-white mb-1">{s.value}</p>
-              <p className="text-sm text-stone-500">{s.label}</p>
+            <div key={s.label} className="text-center px-4 md:px-6">
+              <p className="text-2xl md:text-3xl font-extrabold text-white mb-1">{s.value}</p>
+              <p className="text-[10px] md:text-sm text-stone-500 uppercase tracking-widest">{s.label}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Zones */}
+      {/* Regions Highlights */}
       <section className="max-w-7xl mx-auto px-6 py-24 w-full">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-extrabold text-white mb-4">Scegli la tua Destinazione</h2>
+          <h2 className="text-4xl font-extrabold text-white mb-4">Destinazioni in Primo Piano</h2>
           <p className="text-stone-400 text-lg max-w-xl mx-auto">
-            Ogni regione offre un ecosistema carsico unico. Dove vuoi scendere?
+            Dalle Alpi alle isole, ogni regione offre un ecosistema carsico unico.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {zones.map((z) => (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {[
+            { nome: "Sicilia", slug: "sicilia", emoji: "🌋" },
+            { nome: "Toscana", slug: "toscana", emoji: "🍷" },
+            { nome: "Marche", slug: "marche", emoji: "🏔️" },
+            { nome: "Puglia", slug: "puglia", emoji: "🌊" },
+            { nome: "Sardegna", slug: "sardegna", emoji: "🪸" },
+            { nome: "Lazio", slug: "lazio", emoji: "🏛️" },
+          ].map((z) => (
             <Link
               key={z.slug}
               href={`/prenota/${z.slug}`}
-              className="group bg-stone-900/60 hover:bg-stone-800/80 border border-stone-800 hover:border-emerald-800/50 rounded-3xl p-6 transition-all duration-300 text-center hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/10"
+              className="group bg-stone-900/40 hover:bg-emerald-950/20 border border-stone-800 hover:border-emerald-500/30 rounded-3xl p-6 transition-all duration-300 text-center"
             >
-              <div className="text-5xl mb-4">{z.emoji}</div>
-              <h3 className="text-white font-bold text-lg mb-1">{z.nome}</h3>
-              <p className="text-stone-500 text-sm">{z.grotte} grotte</p>
-              <div className="mt-4 text-emerald-400 text-sm font-medium flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                Esplora <ChevronRight size={14} />
+              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">{z.emoji}</div>
+              <h3 className="text-white font-bold text-sm">{z.nome}</h3>
+              <div className="mt-2 text-emerald-500 text-[10px] font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                Prenota
               </div>
             </Link>
           ))}
+        </div>
+        <div className="mt-12 text-center">
+           <Link href="/grotte" className="text-stone-400 hover:text-emerald-400 text-sm font-medium transition-colors flex items-center justify-center gap-1">
+             Vedi tutte le 13 regioni <ChevronRight size={16} />
+           </Link>
         </div>
       </section>
 
