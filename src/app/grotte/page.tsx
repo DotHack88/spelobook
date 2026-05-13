@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, MapPin } from 'lucide-react';
 
 const TIPOLOGIE = [
   { tipo: 'carsica',     emoji: '🪨', label: 'Carsica',     colore: 'amber',  diffusione: 'Molto diffusa', origine: 'Dissoluzione di rocce calcaree, gesso o dolomia ad opera dell\'acqua', caratteristiche: ['Stalattiti e stalagmiti', 'Fiumi sotterranei', 'Pozzi verticali', 'Sale enormi'], zone: ['Appennini', 'Alpi', 'Sardegna', 'Carso triestino'] },
