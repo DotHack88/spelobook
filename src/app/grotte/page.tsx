@@ -374,8 +374,20 @@ export default function GrottePage() {
                             </div>
                             <p className="text-stone-400 text-xs leading-relaxed">{g.nota}</p>
                           </div>
-                          <div className="self-center opacity-0 group-hover/cave:opacity-100 transition-opacity text-emerald-500">
-                             <ChevronRight size={16} />
+                          <div className="flex items-center gap-3">
+                            <a 
+                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(g.nome + " " + r.regione)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="p-2 rounded-lg bg-stone-800/50 hover:bg-emerald-600 text-stone-400 hover:text-white transition-all shadow-sm"
+                              title="Apri in Google Maps"
+                            >
+                              <MapPin size={14} />
+                            </a>
+                            <div className="opacity-0 group-hover/cave:opacity-100 transition-opacity text-emerald-500">
+                               <ChevronRight size={16} />
+                            </div>
                           </div>
                         </Link>
                       ))}

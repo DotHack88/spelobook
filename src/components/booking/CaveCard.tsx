@@ -1,6 +1,6 @@
 import { Grotta } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
-import { Users, Ruler, Activity, ArrowRight } from 'lucide-react';
+import { Users, Ruler, Activity, ArrowRight, MapPin } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 const diffColors = {
@@ -23,6 +23,7 @@ const tipoConfig: Record<string, { emoji: string; label: string; className: stri
 
 export function CaveCard({ grotta, onSelect }: { grotta: Grotta; onSelect: (g: Grotta) => void }) {
   const tipo = grotta.tipologia ? tipoConfig[grotta.tipologia] : null;
+  const googleMapsUrl = grotta.mappa_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(grotta.nome + " grotta")}`;
 
   return (
     <Card
@@ -48,6 +49,18 @@ export function CaveCard({ grotta, onSelect }: { grotta: Grotta; onSelect: (g: G
             {grotta.difficolta.toUpperCase()}
           </Badge>
         </div>
+
+        {/* Mappa Overlay Button */}
+        <a 
+          href={googleMapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="absolute bottom-4 right-4 z-20 bg-stone-950/80 hover:bg-emerald-600 text-white p-2 rounded-full backdrop-blur-md border border-white/10 transition-all hover:scale-110 shadow-lg"
+          title="Vedi su Google Maps"
+        >
+          <MapPin size={18} />
+        </a>
       </div>
 
       <CardContent className="p-6 relative z-20 bg-stone-900/80">

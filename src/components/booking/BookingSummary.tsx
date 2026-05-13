@@ -77,10 +77,20 @@ export function BookingSummary() {
           
           <p className="text-sm text-stone-400 mb-8 max-w-sm mx-auto">Conserva questo codice, ti servirà per qualsiasi comunicazione futura con il nostro team.</p>
           
-          <Button onClick={() => { reset(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-            className="rounded-full px-8 py-6 text-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/20">
-            Effettua Nuova Prenotazione
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button onClick={() => { reset(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+              className="rounded-full px-8 py-6 text-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/20">
+              Nuova Prenotazione
+            </Button>
+            <a 
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(grotta.nome + " " + zona.regione)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full px-8 py-6 text-lg bg-stone-800 hover:bg-stone-700 text-white font-medium transition-all hover:scale-105 active:scale-95 border border-stone-700 flex items-center justify-center gap-2"
+            >
+              <MapPin size={20} /> Vedi Mappa
+            </a>
+          </div>
         </div>
       </div>
     );
@@ -104,7 +114,17 @@ export function BookingSummary() {
               </h3>
               <div className="bg-stone-950/50 rounded-2xl p-5 border border-stone-800/50">
                 <p className="text-xl font-bold text-white mb-1">{grotta.nome}</p>
-                <p className="text-stone-400">{zona.nome}, {zona.regione}</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-stone-400">{zona.nome}, {zona.regione}</p>
+                  <a 
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(grotta.nome + " " + zona.regione)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-emerald-400 hover:text-emerald-300 text-xs font-bold flex items-center gap-1 transition-colors"
+                  >
+                    <MapPin size={12} /> Vedi posizione
+                  </a>
+                </div>
               </div>
             </div>
 

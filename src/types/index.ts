@@ -32,6 +32,7 @@ export interface Grotta {
   max_persone: number;
   min_persone: number;
   immagini: string[];
+  mappa_url?: string;
   attrezzatura_richiesta?: string;
   note_sicurezza?: string;
   zona?: Zona;
