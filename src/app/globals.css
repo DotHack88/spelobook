@@ -167,7 +167,6 @@
 }
 
 @layer utilities {
-... (keep existing utilities)
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
