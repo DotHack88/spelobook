@@ -55,21 +55,39 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero */}
       <section className="relative flex flex-col items-center justify-center text-center min-h-[90vh] px-6 pt-24 overflow-hidden">
-        {/* New Hero Background Image */}
-        <div className="absolute inset-0 -z-20">
+        {/* New Hero Background Image with Animation */}
+        <div className="absolute inset-0 -z-20 scale-110">
           <img 
             src="/hero-cave.png" 
             alt="Cave Interior" 
-            className="w-full h-full object-cover opacity-40 brightness-75 scale-105"
+            className="w-full h-full object-cover opacity-50 brightness-75 animate-ken-burns"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-950 via-stone-950/60 to-stone-950" />
+          <div className="absolute inset-0 bg-gradient-to-b from-stone-950 via-stone-950/40 to-stone-950" />
+        </div>
+
+        {/* Floating Particles Overlay */}
+        <div className="absolute inset-0 -z-15 pointer-events-none overflow-hidden">
+          {[...Array(15)].map((_, i) => (
+            <div 
+              key={i}
+              className="particle"
+              style={{
+                width: `${Math.random() * 6 + 2}px`,
+                height: `${Math.random() * 6 + 2}px`,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `float-particle ${Math.random() * 10 + 10}s linear infinite`,
+                animationDelay: `${Math.random() * 5}s`,
+                opacity: Math.random() * 0.5
+              }}
+            />
+          ))}
         </div>
 
         {/* Background glow overlay */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-emerald-900/20 blur-[120px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-emerald-900/10 blur-[120px]" />
         </div>
 
         <div className="inline-flex items-center gap-2 bg-emerald-950/60 border border-emerald-800/50 text-emerald-400 text-xs font-semibold px-4 py-2 rounded-full mb-8 backdrop-blur-sm">
