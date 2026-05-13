@@ -65,44 +65,50 @@ export default function Home() {
       </nav>
 
       <section className="relative flex flex-col items-center justify-center text-center min-h-[95vh] px-6 pt-24 overflow-hidden">
-        {/* Background Layer - No negative z-index to avoid stacking context issues */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-stone-950" /> {/* Base color */}
-          <div className="absolute inset-0 overflow-hidden">
+        {/* Background System */}
+        <div className="absolute inset-0 z-0">
+          {/* 1. Base Layer */}
+          <div className="absolute inset-0 bg-stone-950" />
+          
+          {/* 2. Image Layer */}
+          <div className="absolute inset-0 z-10">
             <img 
               src="/hero-cave.png" 
               alt="Cave Interior" 
               className="w-full h-full object-cover opacity-80 brightness-110 animate-ken-burns"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/20 to-stone-950" />
           </div>
+
+          {/* 3. Gradient Overlay - Ensures text contrast */}
+          <div className="absolute inset-0 z-20 bg-gradient-to-b from-stone-950/70 via-stone-950/10 to-stone-950/90" />
           
-          {/* Floating Particles - Now in a safe stacking layer */}
-          <div className="absolute inset-0 overflow-hidden">
-            {mounted && [...Array(40)].map((_, i) => (
+          {/* 4. Particle Layer - High visibility */}
+          <div className="absolute inset-0 z-30 pointer-events-none">
+            {mounted && [...Array(50)].map((_, i) => (
               <div 
                 key={i}
                 className="particle"
                 style={{
-                  width: `${Math.random() * 6 + 4}px`,
-                  height: `${Math.random() * 6 + 4}px`,
+                  width: `${Math.random() * 5 + 3}px`,
+                  height: `${Math.random() * 5 + 3}px`,
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
-                  animation: `float-particle ${Math.random() * 10 + 10}s linear infinite`,
+                  animation: `float-particle ${Math.random() * 15 + 10}s linear infinite`,
                   animationDelay: `${Math.random() * 5}s`,
-                  background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgba(16, 185, 129, 0.7)' : 'rgba(34, 211, 238, 0.7)'} 0%, transparent 70%)`,
-                  opacity: Math.random() * 0.6 + 0.4
+                  background: i % 2 === 0 ? '#10b981' : '#22d3ee',
+                  boxShadow: `0 0 10px ${i % 2 === 0 ? '#10b981' : '#22d3ee'}`,
+                  opacity: Math.random() * 0.5 + 0.3
                 }}
               />
             ))}
           </div>
 
-          {/* Center Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-emerald-500/15 blur-[120px]" />
+          {/* 5. Atmosphere Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-emerald-500/10 blur-[120px] z-20" />
         </div>
 
-        {/* Content Layer - Explicitly on top */}
-        <div className="relative z-10 flex flex-col items-center">
+        {/* 6. Content Layer */}
+        <div className="relative z-40 flex flex-col items-center">
           <div className="inline-flex items-center gap-2 bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-4 py-2 rounded-full mb-8 backdrop-blur-md shadow-lg shadow-emerald-500/10">
             <MapPin size={12} />
             13 regioni · 60+ grotte certificate
