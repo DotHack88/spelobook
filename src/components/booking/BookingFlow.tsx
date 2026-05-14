@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Grotta, TipologiaGrotta } from '@/types';
 import { useBookingStore } from '@/hooks/useBookingStore';
+import { useUserStore } from '@/hooks/useUserStore';
 import { CaveCard } from './CaveCard';
 import { GroupForm } from './GroupForm';
 import { StepIndicator } from './StepIndicator';
@@ -48,11 +49,27 @@ export function BookingFlow({ caves }: { caves: Grotta[] }) {
   // Sincronizza lo step dall'URL se presente (usato dalla nuova barra di ricerca)
   useEffect(() => {
     if (!hasHydrated) return;
+    
+    const reset = searchParams.get('reset');
+    if (reset) {
+      useBookingStore.setState({ step: 2, grotta: undefined });
+      return;
+    }
+
+    const caveName = searchParams.get('caveName');
+    if (caveName) {
+      const foundCave = caves.find(c => c.nome.toLowerCase() === caveName.toLowerCase());
+      if (foundCave) {
+        useBookingStore.setState({ step: 3, grotta: foundCave });
+        return;
+      }
+    }
+
     const urlStep = searchParams.get('step');
     if (urlStep === '3' && step < 3) {
       useBookingStore.setState({ step: 3 });
     }
-  }, [searchParams, step, hasHydrated]);
+  }, [searchParams, step, hasHydrated, caves]);
 
   if (!hasHydrated) return null; // O un componente di loading
 
@@ -122,6 +139,22 @@ export function BookingFlow({ caves }: { caves: Grotta[] }) {
 
     // Step 3: Dati Gruppo e Date
     if (step === 3) {
+      const user = useUserStore.getState().user;
+      if (!user) {
+        return (
+          <div className="text-center py-20 animate-in fade-in duration-500 bg-stone-900/60 rounded-3xl border border-stone-800">
+            <h2 className="text-3xl font-bold text-white mb-4">Accesso Richiesto</h2>
+            <p className="text-stone-400 mb-8">Devi essere un utente registrato per poter effettuare una prenotazione.</p>
+            <button 
+              onClick={() => window.location.href = '/login'} 
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-full transition-colors"
+            >
+              Vai alla pagina di Login
+            </button>
+          </div>
+        );
+      }
+
       return (
         <div className="max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
           <div className="text-center mb-12">

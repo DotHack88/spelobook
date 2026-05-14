@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useBookingStore } from '@/hooks/useBookingStore';
+import { useUserStore } from '@/hooks/useUserStore';
 import { useEffect } from 'react';
 
 import { z } from 'zod';
@@ -26,13 +27,22 @@ export function GroupForm({ onSubmit }: { onSubmit: (data: GroupFormData) => voi
   });
 
   const { isValid } = form.formState;
+  const { user } = useUserStore.getState();
 
   // Aggiorna il form se il gruppo nello store cambia (es. dalla barra di ricerca)
   useEffect(() => {
     if (gruppo) {
       form.reset(gruppo);
+    } else if (user) {
+      // Precompila con i dati dell'utente loggato
+      form.reset({
+        nome_gruppo: '',
+        num_persone: 1,
+        referente: { nome: user.name, cognome: '', telefono: '', email: user.email },
+        note: ''
+      });
     }
-  }, [gruppo, form]);
+  }, [gruppo, form, user]);
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

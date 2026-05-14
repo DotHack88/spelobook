@@ -278,7 +278,7 @@ export default function GrottePage() {
                         <span className="text-xl">{r.emoji}</span> {r.regione}
                       </h3>
                       {r.slug && (
-                        <Link href={`/prenota/${r.slug}`} className="text-emerald-400 hover:text-emerald-300 text-xs flex items-center gap-1 transition-colors font-bold uppercase tracking-widest">
+                        <Link href={`/prenota/${r.slug}?reset=1`} className="text-emerald-400 hover:text-emerald-300 text-xs flex items-center gap-1 transition-colors font-bold uppercase tracking-widest">
                           Esplora <ChevronRight size={14} />
                         </Link>
                       )}
@@ -287,7 +287,7 @@ export default function GrottePage() {
                       {grotteFiltrate.map((g) => (
                         <div 
                           key={g.nome} 
-                          onClick={() => router.push(`/prenota/${r.slug}`)}
+                          onClick={() => router.push(`/prenota/${r.slug}?caveName=${encodeURIComponent(g.nome)}`)}
                           className="group/cave px-6 py-5 flex items-start gap-4 hover:bg-emerald-500/5 transition-all cursor-pointer relative overflow-hidden"
                         >
                           <span className="text-2xl shrink-0 group-hover/cave:scale-110 transition-transform">{g.emoji}</span>

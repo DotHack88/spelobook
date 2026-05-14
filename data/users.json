@@ -1,0 +1,16 @@
+[
+  {
+    "id": "mhpznb7",
+    "name": "Giulio Verde",
+    "email": "giulsverde@live.it",
+    "status": "rejected",
+    "created_at": "2026-05-14T20:13:42.309Z"
+  },
+  {
+    "id": "xba3ucj",
+    "name": "Roxas",
+    "email": "roxas@live.it",
+    "status": "approved",
+    "created_at": "2026-05-14T20:16:57.232Z"
+  }
+]

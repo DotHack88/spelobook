@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { MapPin, ChevronRight, Mountain, Users, ShieldCheck, Compass } from "lucide-react";
+import { useUserStore } from "@/hooks/useUserStore";
 
 const zones = [
   { nome: "Calabria", slug: "calabria", grotte: 12, emoji: "🏔️" },
@@ -50,12 +51,21 @@ export default function Home() {
             <Link href="/prenota" className="hover:text-white transition-colors">Prenota</Link>
             <Link href="/grotte" className="hover:text-white transition-colors">Grotte</Link>
           </div>
-          <Link
-            href="/prenota"
-            className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/20"
-          >
-            Prenota ora
-          </Link>
+          {mounted && useUserStore.getState().user ? (
+            <Link
+              href="/profilo"
+              className="bg-stone-800 hover:bg-stone-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg border border-stone-700"
+            >
+              Il mio Profilo
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/20"
+            >
+              Accesso
+            </Link>
+          )}
         </div>
       </nav>
 
@@ -187,24 +197,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Banner */}
-      <section className="max-w-7xl mx-auto px-6 py-12 w-full">
-        <div className="relative bg-gradient-to-br from-emerald-950/80 to-stone-900/80 border border-emerald-900/30 rounded-3xl p-12 text-center overflow-hidden">
-          <div className="absolute inset-0 -z-10">
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-800/20 rounded-full blur-[120px]" />
-          </div>
-          <h2 className="text-4xl font-extrabold text-white mb-4">Pronto per l&apos;avventura?</h2>
-          <p className="text-stone-300 text-lg mb-8 max-w-xl mx-auto">
-            Compila il form in 4 step e ricevi il tuo codice di prenotazione univoco in pochi secondi.
-          </p>
-          <Link
-            href="/prenota"
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-lg font-semibold px-10 py-4 rounded-full transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-emerald-500/30"
-          >
-            Inizia ora <ChevronRight size={20} />
-          </Link>
-        </div>
-      </section>
+
 
       {/* Footer */}
       <footer className="mt-auto border-t border-stone-900 py-10 text-center text-stone-600 text-sm">

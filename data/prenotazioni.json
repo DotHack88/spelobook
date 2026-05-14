@@ -1,0 +1,53 @@
+[
+  {
+    "id": "ssmd77u",
+    "codice_prenotazione": "SPELO-SSMD77U-DEMO",
+    "grotta_id": "grotte-di-stiffe",
+    "data_checkin": "2026-05-21",
+    "data_checkout": "2026-05-21",
+    "fascia_oraria": "pomeriggio",
+    "nome_gruppo": "bare",
+    "num_persone": 1,
+    "referente_nome": "Ema",
+    "referente_cognome": "Bares",
+    "referente_telefono": "3331287398",
+    "referente_email": "prova@live.it",
+    "note": "",
+    "stato": "confermata",
+    "created_at": "2026-05-14T19:30:35.850Z"
+  },
+  {
+    "id": "acx7va4",
+    "codice_prenotazione": "SPELO-ACX7VA4-DEMO",
+    "grotta_id": "grotte-di-stiffe",
+    "data_checkin": "2026-05-21",
+    "data_checkout": "2026-05-21",
+    "fascia_oraria": "pomeriggio",
+    "nome_gruppo": "eccgg",
+    "num_persone": 1,
+    "referente_nome": "Ema",
+    "referente_cognome": "Bares",
+    "referente_telefono": "3331287398",
+    "referente_email": "prova@live.it",
+    "note": "",
+    "stato": "confermata",
+    "created_at": "2026-05-14T20:20:29.865Z"
+  },
+  {
+    "id": "8ggu62z",
+    "codice_prenotazione": "SPELO-8GGU62Z-DEMO",
+    "grotta_id": "abisso-del-bivacco",
+    "data_checkin": "2026-05-21",
+    "data_checkout": "2026-05-21",
+    "fascia_oraria": "pomeriggio",
+    "nome_gruppo": "eccgg",
+    "num_persone": 1,
+    "referente_nome": "Ema",
+    "referente_cognome": "Bares",
+    "referente_telefono": "3331287398",
+    "referente_email": "prova@live.it",
+    "note": "",
+    "stato": "confermata",
+    "created_at": "2026-05-14T20:25:05.313Z"
+  }
+]

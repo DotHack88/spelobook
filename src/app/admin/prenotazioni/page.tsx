@@ -117,8 +117,22 @@ export default function AdminPrenotazioni() {
     fetchPrenotazioni();
   }, []);
 
-  const updateStato = (id: string, nuovoStato: string) => {
+  const updateStato = async (id: string, nuovoStato: string) => {
+    // Aggiornamento ottimistico
     setPrenotazioni(prev => prev.map(p => p.id === id ? { ...p, stato: nuovoStato } : p));
+    
+    // Aggiornamento reale sul DB
+    if (!id.startsWith('mock')) {
+      try {
+        await fetch(`/api/prenotazioni/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ stato: nuovoStato })
+        });
+      } catch (err) {
+        console.error('Errore aggiornamento stato:', err);
+      }
+    }
   };
 
   const filtered = prenotazioni.filter(p => {
@@ -236,23 +250,32 @@ export default function AdminPrenotazioni() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      {p.stato === 'in_attesa' && (
-                        <>
-                          <button 
-                            onClick={() => updateStato(p.id, 'confermata')}
-                            className="p-2 bg-emerald-500/10 text-emerald-400 rounded-xl hover:bg-emerald-500 hover:text-white transition-all border border-emerald-500/20"
-                            title="Conferma"
-                          >
-                            <Check size={16} />
-                          </button>
-                          <button 
-                            onClick={() => updateStato(p.id, 'rifiutata')}
-                            className="p-2 bg-red-500/10 text-red-400 rounded-xl hover:bg-red-500 hover:text-white transition-all border border-red-500/20"
-                            title="Rifiuta"
-                          >
-                            <X size={16} />
-                          </button>
-                        </>
+                      {p.stato !== 'confermata' && (
+                        <button 
+                          onClick={() => updateStato(p.id, 'confermata')}
+                          className="p-2 bg-emerald-500/10 text-emerald-400 rounded-xl hover:bg-emerald-500 hover:text-white transition-all border border-emerald-500/20"
+                          title="Conferma Prenotazione"
+                        >
+                          <Check size={16} />
+                        </button>
+                      )}
+                      {p.stato !== 'rifiutata' && p.stato !== 'cancellata' && (
+                        <button 
+                          onClick={() => updateStato(p.id, 'rifiutata')}
+                          className="p-2 bg-red-500/10 text-red-400 rounded-xl hover:bg-red-500 hover:text-white transition-all border border-red-500/20"
+                          title="Rifiuta Prenotazione"
+                        >
+                          <X size={16} />
+                        </button>
+                      )}
+                      {p.stato !== 'in_attesa' && (
+                        <button 
+                          onClick={() => updateStato(p.id, 'in_attesa')}
+                          className="p-2 bg-yellow-500/10 text-yellow-400 rounded-xl hover:bg-yellow-500 hover:text-white transition-all border border-yellow-500/20"
+                          title="Rimetti in attesa"
+                        >
+                          <Clock size={16} />
+                        </button>
                       )}
                       <button className="p-2 text-stone-500 hover:text-white hover:bg-stone-800 rounded-xl transition-all">
                         <MoreVertical size={16} />
