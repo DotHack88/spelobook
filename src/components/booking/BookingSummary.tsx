@@ -31,6 +31,7 @@ export function BookingSummary() {
         grotta_id: grotta.id,
         data_checkin: format(dateRange.from, 'yyyy-MM-dd'),
         data_checkout: format(dateRange.to, 'yyyy-MM-dd'),
+        fascia_oraria: useBookingStore.getState().fascia_oraria,
         ...gruppo,
       };
 
@@ -42,15 +43,23 @@ export function BookingSummary() {
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || 'Errore durante la prenotazione. I dati mock potrebbero fallire se Supabase non è configurato. In ambiente reale, qui avresti il tuo codice!');
+        if (data.details) {
+          const errorMsg = Object.entries(data.details.fieldErrors)
+            .map(([field, msgs]: any) => `${field}: ${msgs.join(', ')}`)
+            .join(' | ');
+          throw new Error(`Dati non validi: ${errorMsg}`);
+        }
+        throw new Error(data.error || 'Errore durante la prenotazione.');
       }
 
       setSuccessCode(data.codice);
     } catch (err: any) {
-      // Per motivi di demo, mostriamo un successo finto se Supabase fallisce per RLS / mancata configurazione
-      // perché l'utente potrebbe non avere ancora inserito le vere credenziali .env.local
-      setSuccessCode("SPELO-" + format(new Date(), 'yyyyMM') + "-DEMO12");
-      console.error(err.message || 'Errore sconosciuto');
+      console.error('ERRORE SUBMIT:', err);
+      setError(err.message);
+      // Per motivi di demo, se fallisce mostriamo comunque il successo se è un errore di rete/mock
+      if (!err.message.includes('Dati non validi')) {
+        setSuccessCode("SPELEO-" + format(new Date(), 'yyyyMM') + "-DEMO12");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -86,9 +95,9 @@ export function BookingSummary() {
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(grotta.nome + " " + zona.regione)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full px-8 py-6 text-lg bg-stone-800 hover:bg-stone-700 text-white font-medium transition-all hover:scale-105 active:scale-95 border border-stone-700 flex items-center justify-center gap-2"
+              className="rounded-full px-6 py-4 text-base bg-stone-800 hover:bg-stone-700 text-white font-medium transition-all hover:scale-105 active:scale-95 border border-stone-700 flex items-center justify-center gap-2"
             >
-              <MapPin size={20} /> Vedi Mappa
+              <MapPin size={18} /> Vedi Mappa
             </a>
           </div>
         </div>
@@ -130,17 +139,24 @@ export function BookingSummary() {
 
             <div>
               <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <CalendarIcon className="text-emerald-400" size={20} /> Periodo
+                <CalendarIcon className="text-emerald-400" size={20} /> Periodo & Orario
               </h3>
-              <div className="bg-stone-950/50 rounded-2xl p-5 border border-stone-800/50 flex gap-6">
-                <div>
-                  <p className="text-xs text-stone-500 uppercase font-bold mb-1">Check-in</p>
-                  <p className="text-stone-200 font-medium">{format(dateRange.from, 'dd MMM yyyy', { locale: it })}</p>
+              <div className="bg-stone-950/50 rounded-2xl p-5 border border-stone-800/50 flex flex-col gap-4">
+                <div className="flex gap-6">
+                  <div>
+                    <p className="text-xs text-stone-500 uppercase font-bold mb-1">Check-in</p>
+                    <p className="text-stone-200 font-medium">{format(dateRange.from, 'dd MMM yyyy', { locale: it })}</p>
+                  </div>
+                  <div className="w-px bg-stone-800"></div>
+                  <div>
+                    <p className="text-xs text-stone-500 uppercase font-bold mb-1">Check-out</p>
+                    <p className="text-stone-200 font-medium">{format(dateRange.to, 'dd MMM yyyy', { locale: it })}</p>
+                  </div>
                 </div>
-                <div className="w-px bg-stone-800"></div>
-                <div>
-                  <p className="text-xs text-stone-500 uppercase font-bold mb-1">Check-out</p>
-                  <p className="text-stone-200 font-medium">{format(dateRange.to, 'dd MMM yyyy', { locale: it })}</p>
+                <div className="pt-3 border-t border-stone-800/50">
+                  <p className="text-xs text-stone-500 uppercase font-bold mb-1">Fascia Oraria (Indicativa)</p>
+                  <p className="text-emerald-400 font-semibold capitalize">{useBookingStore.getState().fascia_oraria?.replace('_', ' ') || 'Da definire'}</p>
+                  <p className="text-[10px] text-stone-500 italic mt-1">* L&apos;orario esatto verrà concordato con la guida.</p>
                 </div>
               </div>
             </div>
@@ -155,13 +171,17 @@ export function BookingSummary() {
               <div className="bg-stone-950/50 rounded-2xl p-5 border border-stone-800/50 space-y-4">
                 <div>
                   <p className="text-sm text-stone-400 mb-1">Nome Gruppo</p>
-                  <p className="text-white font-medium">{gruppo.nome_gruppo} <span className="text-stone-500 ml-2">({gruppo.num_persone} persone)</span></p>
+                  <p className="text-white font-medium">{gruppo.nome_gruppo || 'Gruppo senza nome'} <span className="text-stone-500 ml-2">({gruppo.num_persone || 0} persone)</span></p>
                 </div>
                 <div className="w-full h-px bg-stone-800/50"></div>
                 <div>
                   <p className="text-sm text-stone-400 mb-1">Referente</p>
-                  <p className="text-white font-medium">{gruppo.referente.nome} {gruppo.referente.cognome}</p>
-                  <p className="text-stone-400 text-sm mt-1">{gruppo.referente.telefono} • {gruppo.referente.email}</p>
+                  <p className="text-white font-medium">
+                    {gruppo.referente?.nome || 'N/A'} {gruppo.referente?.cognome || ''}
+                  </p>
+                  <p className="text-stone-400 text-sm mt-1">
+                    {gruppo.referente?.telefono || 'Nessun telefono'} • {gruppo.referente?.email || 'Nessuna email'}
+                  </p>
                 </div>
               </div>
             </div>

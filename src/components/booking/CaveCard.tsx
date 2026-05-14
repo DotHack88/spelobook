@@ -3,11 +3,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Users, Ruler, Activity, ArrowRight, MapPin } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
-const diffColors = {
-  facile:    'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-  media:     'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
-  difficile: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
-  esperta:   'bg-red-500/10 text-red-400 border-red-500/20',
+const orientamentoConfig = {
+  orizzontale: { label: 'Orizzontale', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  verticale:   { label: 'Verticale',   className: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
 };
 
 const tipoConfig: Record<string, { emoji: string; label: string; className: string }> = {
@@ -45,8 +43,8 @@ export function CaveCard({ grotta, onSelect }: { grotta: Grotta; onSelect: (g: G
           )}
         </div>
         <div className="absolute top-4 right-4 z-20">
-          <Badge className={diffColors[grotta.difficolta]}>
-            {grotta.difficolta.toUpperCase()}
+          <Badge className={orientamentoConfig[grotta.orientamento].className}>
+            {orientamentoConfig[grotta.orientamento].label.toUpperCase()}
           </Badge>
         </div>
 
@@ -79,9 +77,9 @@ export function CaveCard({ grotta, onSelect }: { grotta: Grotta; onSelect: (g: G
             <span className="font-bold text-white text-sm">{grotta.lunghezza_mt ? `${grotta.lunghezza_mt}m` : '-'}</span>
           </div>
           <div className="flex flex-col items-center p-3 rounded-xl bg-stone-950/50 border border-stone-800">
-            <Users className="w-5 h-5 text-purple-400 mb-1" />
-            <span className="text-[10px] text-stone-400 uppercase tracking-wider mt-1">Capienza</span>
-            <span className="font-bold text-white text-sm">{grotta.max_persone} max</span>
+            <Activity className="w-5 h-5 text-purple-400 mb-1" />
+            <span className="text-[10px] text-stone-400 uppercase tracking-wider mt-1">Sviluppo</span>
+            <span className="font-bold text-white text-sm">{grotta.orientamento === 'orizzontale' ? 'Orizz.' : 'Vert.'}</span>
           </div>
         </div>
 

@@ -10,15 +10,20 @@ const referenteSchema = z.object({
 export const groupSchema = z.object({
   nome_gruppo:             z.string().min(2, 'Nome gruppo richiesto'),
   num_persone:             z.number().min(1).max(100),
-  esperienza_dichiarata:   z.string().optional(),
   referente:               referenteSchema,
-  referente2:              referenteSchema.partial().optional(),
+  referente2: z.object({
+    nome:     z.string().optional(),
+    cognome:  z.string().optional(),
+    telefono: z.string().optional(),
+    email:    z.string().optional(),
+  }).optional(),
   note:                    z.string().optional(),
 });
 
 export const fullBookingSchema = z.object({
-  grotta_id:     z.string().uuid(),
+  grotta_id:     z.string(),
   data_checkin:  z.string(),
   data_checkout: z.string(),
+  fascia_oraria: z.enum(['mattina', 'pomeriggio', 'intera_giornata']),
   ...groupSchema.shape,
 });

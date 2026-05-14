@@ -14,8 +14,8 @@ const zones = [
 const features = [
   {
     icon: <Compass className="w-7 h-7" />,
-    title: "4 Regioni d'Eccellenza",
-    desc: "Grotte certificate in Calabria, Puglia, Sardegna e Friuli-Venezia Giulia.",
+    title: "Prime Regioni Disponibili",
+    desc: "Grotte mappate in Calabria, Puglia, Sardegna e Friuli-Venezia Giulia.",
   },
   {
     icon: <Users className="w-7 h-7" />,
@@ -24,8 +24,8 @@ const features = [
   },
   {
     icon: <ShieldCheck className="w-7 h-7" />,
-    title: "Anti-Conflitto Date",
-    desc: "Il sistema verifica in tempo reale le disponibilità ed evita sovrapposizioni.",
+    title: "Prenotazione Esclusiva",
+    desc: "Garantiamo l'esclusività della grotta per il tuo gruppo durante la fascia oraria scelta.",
   },
   {
     icon: <Mountain className="w-7 h-7" />,
@@ -48,7 +48,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-extrabold text-xl tracking-tight">
             <span className="text-2xl">🪨</span>
-            <span className="text-white">Spelo</span>
+            <span className="text-white">Speleo</span>
             <span className="text-emerald-400">Book</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-stone-400">
@@ -123,7 +123,7 @@ export default function Home() {
           </h1>
 
           <p className="text-stone-200 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed drop-shadow-lg font-medium">
-            SpeloBook è la piattaforma professionale per prenotare escursioni speleologiche in gruppo.
+            SpeleoBook è la piattaforma sperimentale per prenotare escursioni speleologiche in gruppo.
             Scegli la grotta, seleziona le date e invia i dati del tuo team in pochi click.
           </p>
 
@@ -138,7 +138,7 @@ export default function Home() {
               href="/grotte"
               className="flex items-center justify-center gap-2 border border-stone-700 bg-stone-900/40 backdrop-blur-md text-stone-100 hover:bg-stone-800 hover:text-white text-base font-medium px-8 py-4 rounded-full transition-all"
             >
-              Scopri il Catalogo
+              Scopri le Grotte
             </Link>
           </div>
 
@@ -150,7 +150,7 @@ export default function Home() {
             {[
               { label: "Grotte Attive", value: "60+", color: "text-emerald-400" },
               { label: "Regioni", value: "13", color: "text-teal-400" },
-              { label: "Sicurezza", value: "100%", color: "text-cyan-400" },
+              { label: "Sicurezza della tua prenotazione", value: "100%", color: "text-cyan-400" },
             ].map((s) => (
               <div key={s.label} className="text-center px-4 md:px-6 relative z-10 transition-transform group-hover/stats:scale-105 duration-300">
                 <p className={`text-3xl md:text-4xl font-black mb-2 tracking-tighter ${s.color} transition-colors group-hover/stats:text-white`}>
@@ -165,54 +165,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Regions Highlights */}
-      <section className="max-w-7xl mx-auto px-6 py-24 w-full">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-extrabold text-white mb-4">Destinazioni in Primo Piano</h2>
-          <p className="text-stone-400 text-lg max-w-xl mx-auto">
-            Dalle Alpi alle isole, ogni regione offre un ecosistema carsico unico.
-          </p>
-        </div>
 
-        <div className="flex gap-4 overflow-x-auto pb-8 custom-scrollbar snap-x snap-mandatory px-4 -mx-4 md:px-0 md:mx-0">
-          {[
-            { nome: "Sicilia", slug: "sicilia", emoji: "🌋" },
-            { nome: "Toscana", slug: "toscana", emoji: "🍷" },
-            { nome: "Marche", slug: "marche", emoji: "🏔️" },
-            { nome: "Puglia", slug: "puglia", emoji: "🌊" },
-            { nome: "Sardegna", slug: "sardegna", emoji: "🪸" },
-            { nome: "Lazio", slug: "lazio", emoji: "🏛️" },
-            { nome: "Calabria", slug: "calabria", emoji: "🌶️" },
-            { nome: "Friuli", slug: "friuli", emoji: "❄️" },
-            { nome: "Liguria", slug: "liguria", emoji: "🌊" },
-            { nome: "Abruzzo", slug: "abruzzo", emoji: "🐻" },
-          ].map((z) => (
-            <Link
-              key={z.slug}
-              href={`/prenota/${z.slug}`}
-              className="flex-shrink-0 w-[160px] md:w-[180px] snap-center group bg-stone-900/40 hover:bg-emerald-950/20 border border-stone-800 hover:border-emerald-500/30 rounded-3xl p-6 transition-all duration-300 text-center"
-            >
-              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">{z.emoji}</div>
-              <h3 className="text-white font-bold text-sm">{z.nome}</h3>
-              <div className="mt-2 text-emerald-500 text-[10px] font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-                Prenota
-              </div>
-            </Link>
-          ))}
-        </div>
-        <div className="mt-12 text-center">
-           <Link href="/grotte" className="text-stone-400 hover:text-emerald-400 text-sm font-medium transition-colors flex items-center justify-center gap-1">
-             Vedi tutte le 13 regioni <ChevronRight size={16} />
-           </Link>
-        </div>
-      </section>
 
       {/* Features */}
       <section className="w-full py-24 border-t border-stone-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-extrabold text-white mb-4">Perché SpeloBook?</h2>
-            <p className="text-stone-400 text-lg">Strumenti professionali per esploratori seri.</p>
+            <h2 className="text-4xl font-extrabold text-white mb-4">Perché SpeleoBook?</h2>
+            <p className="text-stone-400 text-lg">Una demo interattiva per la pianificazione delle tue uscite.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -254,7 +214,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="mt-auto border-t border-stone-900 py-10 text-center text-stone-600 text-sm">
         <p>
-          <span className="font-bold text-stone-400">🪨 SpeloBook</span> — Prenotazione escursioni speleologiche © {new Date().getFullYear()}
+          <span className="font-bold text-stone-400">🪨 SpeleoBook</span> — Prenotazione escursioni speleologiche © {new Date().getFullYear()}
         </p>
       </footer>
     </div>

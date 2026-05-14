@@ -22,6 +22,20 @@ export default function AdminDashboard() {
     { id: '4', gruppo: 'Caving Club Napoli', grotta: 'Grotta dei Tre Livelli', data: '05 Set 2025', stato: 'In Attesa', persone: 5 },
   ];
 
+  const handleExport = () => {
+    const csvContent = "data:text/csv;charset=utf-8," 
+      + "Codice,Gruppo,Grotta,Data,Persone,Stato\n"
+      + recentBookings.map(b => `${b.id},${b.gruppo},${b.grotta},${b.data},${b.persone},${b.stato}`).join("\n");
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `report_spelobook_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       <div>
@@ -93,11 +107,17 @@ export default function AdminDashboard() {
           <div className="bg-stone-900/40 border border-stone-800 rounded-3xl p-6">
             <h2 className="text-xl font-bold text-white mb-6">Azioni Rapide</h2>
             <div className="grid grid-cols-1 gap-4">
-              <button className="flex items-center gap-3 w-full p-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-all">
+              <button 
+                onClick={() => alert('Funzione di inserimento grotta in fase di attivazione. Sarà disponibile nella versione finale.')}
+                className="flex items-center gap-3 w-full p-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-all"
+              >
                 <Mountain size={18} />
                 <span>Aggiungi Nuova Grotta</span>
               </button>
-              <button className="flex items-center gap-3 w-full p-4 rounded-2xl bg-stone-800 hover:bg-stone-700 text-white font-semibold transition-all border border-stone-700">
+              <button 
+                onClick={handleExport}
+                className="flex items-center gap-3 w-full p-4 rounded-2xl bg-stone-800 hover:bg-stone-700 text-white font-semibold transition-all border border-stone-700"
+              >
                 <Calendar size={18} />
                 <span>Esporta Report Mensile</span>
               </button>

@@ -4,15 +4,41 @@ import { groupSchema } from '@/lib/validations/booking';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { useBookingStore } from '@/hooks/useBookingStore';
+import { useEffect } from 'react';
 
-export function GroupForm({ onSubmit }: { onSubmit: (data: any) => void }) {
-  const form = useForm({ resolver: zodResolver(groupSchema) });
+import { z } from 'zod';
+
+type GroupFormData = z.infer<typeof groupSchema>;
+
+export function GroupForm({ onSubmit }: { onSubmit: (data: GroupFormData) => void }) {
+  const { gruppo } = useBookingStore();
+  
+  const form = useForm<GroupFormData>({ 
+    resolver: zodResolver(groupSchema),
+    defaultValues: (gruppo as GroupFormData) || {
+      nome_gruppo: '',
+      num_persone: 1,
+      referente: { nome: '', cognome: '', telefono: '', email: '' },
+      referente2: { nome: '', cognome: '', telefono: '', email: '' },
+      note: ''
+    }
+  });
+
+  // Aggiorna il form se il gruppo nello store cambia (es. dalla barra di ricerca)
+  useEffect(() => {
+    if (gruppo) {
+      form.reset(gruppo);
+    }
+  }, [gruppo, form]);
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
       {/* Sezione: Dati Gruppo */}
       <section>
-        <h3 className="text-lg font-semibold mb-4">🏔️ Dati del Gruppo</h3>
+        <h3 className="text-xl font-bold mb-6 text-white flex items-center gap-3">
+           <span className="text-2xl">⛰️</span> Dati del Gruppo
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">Nome del gruppo</label>
@@ -21,16 +47,6 @@ export function GroupForm({ onSubmit }: { onSubmit: (data: any) => void }) {
           <div className="space-y-2">
             <label className="text-sm font-medium">Numero partecipanti</label>
             <Input type="number" {...form.register('num_persone', { valueAsNumber: true })} />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Livello esperienza</label>
-            <select className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" {...form.register('esperienza_dichiarata')}>
-              <option value="">Seleziona...</option>
-              <option value="principianti">Principianti (0-2 uscite)</option>
-              <option value="intermedi">Intermedi (2-10 uscite)</option>
-              <option value="esperti">Esperti (10+ uscite)</option>
-              <option value="professionisti">Professionisti/Guide</option>
-            </select>
           </div>
         </div>
       </section>

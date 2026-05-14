@@ -10,6 +10,9 @@ export type TipologiaGrotta =
   | 'crollo'
   | 'artificiale';
 
+export type OrientamentoGrotta = 'orizzontale' | 'verticale';
+export type FasciaOraria = 'mattina' | 'pomeriggio' | 'intera_giornata';
+
 export interface Zona {
   id: string;
   nome: string;
@@ -25,11 +28,10 @@ export interface Grotta {
   nome: string;
   slug: string;
   descrizione?: string;
-  difficolta: Difficolta;
+  orientamento: OrientamentoGrotta;
   tipologia?: TipologiaGrotta;
   profondita_mt?: number;
   lunghezza_mt?: number;
-  max_persone: number;
   min_persone: number;
   immagini: string[];
   mappa_url?: string;
@@ -49,6 +51,7 @@ export interface PrenotazioneInput {
   grotta_id: string;
   data_checkin: string;        // formato ISO: "2025-08-15"
   data_checkout: string;
+  fascia_oraria: FasciaOraria;
   nome_gruppo: string;
   num_persone: number;
   referente: Referente;
@@ -70,12 +73,12 @@ export interface BookingState {
   zona?: Zona;
   grotta?: Grotta;
   dateRange?: { from: Date; to: Date };
+  fascia_oraria?: FasciaOraria;
   gruppo?: {
     nome_gruppo: string;
-    num_persone: number;
-    referente: Referente;
+    num_persone?: number;
+    referente?: Referente;
     referente2?: Partial<Referente>;
     note?: string;
-    esperienza_dichiarata?: string;
   };
 }

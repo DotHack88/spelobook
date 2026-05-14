@@ -2,12 +2,30 @@ import { createClient } from '@/lib/supabase/server';
 import { fullBookingSchema } from '@/lib/validations/booking';
 import { NextResponse } from 'next/server';
 
+export async function GET() {
+  try {
+    const supabase = await createClient();
+    const { data: bookings, error } = await supabase
+      .from('prenotazioni')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    return NextResponse.json(bookings);
+  } catch (err: any) {
+    console.error('Errore recupero prenotazioni:', err);
+    return NextResponse.json([], { status: 200 }); // Return empty array on error for safety
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const parsed = fullBookingSchema.safeParse(body);
 
     if (!parsed.success) {
+      console.error('ERRORE VALIDAZIONE:', parsed.error.format());
       return NextResponse.json(
         { error: 'Dati non validi', details: parsed.error.flatten() },
         { status: 400 }
@@ -39,6 +57,7 @@ export async function POST(req: Request) {
         grotta_id:              data.grotta_id,
         data_checkin:           data.data_checkin,
         data_checkout:          data.data_checkout,
+        fascia_oraria:          data.fascia_oraria,
         nome_gruppo:            data.nome_gruppo,
         num_persone:            data.num_persone,
         referente_nome:         data.referente.nome,
@@ -49,7 +68,6 @@ export async function POST(req: Request) {
         referente2_cognome:     data.referente2?.cognome,
         referente2_telefono:    data.referente2?.telefono,
         referente2_email:       data.referente2?.email,
-        esperienza_dichiarata:  data.esperienza_dichiarata,
         note:                   data.note,
       })
       .select()

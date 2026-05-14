@@ -1,77 +1,61 @@
-# 🪨 SpeloBook
+# SpeleoBook 🏔️📖
 
-**SpeloBook** è la piattaforma speleologica definitiva per l'esplorazione del sottosuolo italiano. Progettata per gruppi e appassionati, unisce un'estetica immersiva a un sistema di prenotazione professionale e semplificato.
-
-🚀 **Vedi l'applicazione in azione:** [https://spelobook.vercel.app](https://spelobook.vercel.app)
+**SpeleoBook** è una piattaforma moderna ed elegante per la gestione e la prenotazione di escursioni speleologiche. Progettata per gruppi di esploratori e appassionati, offre un'interfaccia premium con focus sull'esperienza utente e sull'efficienza amministrativa.
 
 ---
 
-## ✨ Caratteristiche Principali
+## 🚀 Aggiornamenti Recenti (Maggio 2026)
 
-### 🌊 Esperienza Immersiva
-- **Hero Page Dinamica**: Sfondo con effetto *Ken Burns* (zoom lento cinematografico) e sistema di *particelle ipogee* che simulano l'atmosfera di una grotta viva.
-- **Design Premium**: Tema scuro (stone/emerald) con gradienti moderni, glassmorphism e micro-animazioni.
+Abbiamo apportato significativi miglioramenti per rendere il processo di prenotazione più fluido e la gestione amministrativa più potente.
 
-### 📍 Esplorazione e Catalogo
-- **60+ Grotte Censite**: Database esteso coprente 13 regioni italiane.
-- **Filtro Geologico**: Esplora le cavità in base alla loro origine (Carsica, Lavica, Marina, Glaciale, ecc.) con aggiornamento istantaneo dei risultati.
-- **Integrazione Google Maps**: Ogni grotta include un link diretto per la navigazione GPS, presente nel catalogo, nella scelta della grotta e nel riepilogo finale.
+### 1. 🔍 Esperienza di Ricerca e Prenotazione
+*   **Barra di Ricerca Intelligente**: Integrata la ricerca testuale in tempo reale all'interno del catalogo grotte. È ora possibile cercare una grotta per nome direttamente dalla Home.
+*   **Selezione Fascia Oraria**: Aggiunta la possibilità di indicare la fascia oraria preferita (Mattina, Pomeriggio, Intera Giornata) già in fase di ricerca.
+*   **Pulsante "Prenota" Diretto**: Il vecchio tasto "Cerca" è stato trasformato in un tasto "Prenota" che porta l'utente direttamente alla fase di inserimento dati (Step 3), pre-popolando il nome del gruppo.
+*   **UI Semplificata**: Rimossi i campi tecnici ridondanti (Esplorazione tecnica, Guida inclusa) per un'interfaccia più pulita e immediata.
 
-### 📅 Sistema di Prenotazione Avanzato
-- **Flusso Multi-step**: Selezione zona -> Scelta grotta -> Calendario disponibilità -> Dati del gruppo.
-- **Gestione Gruppo**: Campi dedicati per capogruppo e referente secondario, con validazione dei dati.
-- **Calendario Real-time**: Visualizzazione chiara dei giorni occupati e disponibili.
+### 2. 📝 Flusso di Registrazione Ottimizzato
+*   **Form Dati Gruppo**: Rimosso il campo "Livello Esperienza" per ridurre l'attrito durante la compilazione.
+*   **Persistenza Dati**: Il nome del gruppo inserito nella barra di ricerca viene ora automaticamente trasportato nel modulo dettagliato.
+*   **Gestione Errori Avanzata**: In caso di dati non validi, il sistema ora mostra all'utente esattamente quali campi sono errati (es. formato email o telefono), migliorando il debugging.
 
----
+### 3. 🛡️ Dashboard Amministratore (Admin)
+*   **Ricerca Live Prenotazioni**: Implementata una barra di ricerca istantanea per filtrare le prenotazioni per Codice (es. `SPELEO-XXXX`), Nome Gruppo, Referente o Grotta.
+*   **Export Report**: Attivata la funzione di esportazione reale in formato **CSV** per i report mensili delle attività.
+*   **Azioni Rapide**: Migliorato il feedback visivo per l'inserimento di nuove grotte e altre azioni di gestione rapida.
 
-## 🛠️ Tech Stack
-
-- **Framework**: [Next.js 15](https://nextjs.org/) (App Router, Server & Client Components)
-- **Database & Auth**: [Supabase](https://supabase.com/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **State Management**: [Zustand](https://zustand-demo.pmnd.rs/)
-- **Icone**: [Lucide React](https://lucide.dev/)
-- **Validazione**: [Zod](https://zod.dev/) & React Hook Form
-- **Animazioni**: Framer Motion & CSS Keyframes
+### 4. 🛠️ Migliorie Tecniche
+*   **Integrazione Supabase**: Il database è stato aggiornato per supportare e persistere il campo `fascia_oraria`.
+*   **Validazione Zod**: Sincronizzati gli schemi di validazione client e server per garantire la massima integrità del dato.
+*   **Branding**: Implementata una nuova **Favicon personalizzata** in formato SVG (Libro + Montagna).
+*   **Fix Tipizzazione**: Risolti numerosi errori TypeScript legati all'opzionalità dei campi del gruppo nello store globale.
 
 ---
 
-## 🚀 Installazione Locale
-
-1. **Clona la repository:**
-   ```bash
-   git clone https://github.com/DotHack88/spelobook.git
-   cd spelobook
-   ```
-
-2. **Installa le dipendenze:**
-   ```bash
-   npm install
-   ```
-
-3. **Configura le variabili d'ambiente:**
-   Crea un file `.env.local` con le tue chiavi di Supabase:
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=tua_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=tua_chiave_anon
-   SUPABASE_SERVICE_ROLE_KEY=tua_chiave_service
-   ```
-
-4. **Avvia il server di sviluppo:**
-   ```bash
-   npm run dev
-   ```
-
-Apri [http://localhost:3000](http://localhost:3000) per vedere il risultato.
+## 🛠️ Stack Tecnologico
+*   **Framework**: [Next.js 14+](https://nextjs.org/) (App Router & Turbopack)
+*   **Linguaggio**: TypeScript
+*   **Styling**: Tailwind CSS
+*   **State Management**: Zustand (Global Store)
+*   **Validazione**: Zod & React Hook Form
+*   **Database & Auth**: Supabase
+*   **Icone**: Lucide React
 
 ---
 
-## 🗺️ Roadmap Futura
-- [ ] Integrazione pagamenti con Stripe.
-- [ ] Automazione email con Resend.
-- [ ] Area riservata per i gestori delle grotte.
-- [ ] Traduzione multilingua (Inglese/Tedesco).
+## 📂 Struttura del Progetto (Principale)
+*   `src/app/admin`: Dashboard e gestione prenotazioni.
+*   `src/components/booking`: Componenti core del flusso di prenotazione (SearchBar, GroupForm, Summary).
+*   `src/hooks`: Hook personalizzati (es. `useBookingStore`).
+*   `src/lib/validations`: Schemi di validazione centralizzati.
+*   `src/types`: Definizioni delle interfacce TypeScript.
 
 ---
 
-Realizzato con passione per la speleologia e il web design moderno. 🏔️🧭
+## 📋 Prossimi Passi
+- [ ] Implementazione interfaccia visuale per l'aggiunta di nuove grotte (Form Admin).
+- [ ] Integrazione sistema di upload immagini per la galleria grotte.
+- [ ] Notifiche email automatiche alla conferma della prenotazione.
+
+---
+*SpeleoBook - Esplora l'oscurità con facilità.*

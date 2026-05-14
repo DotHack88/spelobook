@@ -8,9 +8,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SpeloBook — Prenota la tua avventura speleologica",
+  title: "SpeleoBook — Esplorazioni Speleologiche Certificate",
   description:
-    "Esplora le grotte più belle d'Italia. SpeloBook è la piattaforma per prenotare escursioni speleologiche in gruppo in modo semplice, sicuro e immediato.",
+    "Il portale unico per le tue esplorazioni speleologiche certificate in tutta Italia.",
+  icons: {
+    icon: "/favicon.svg",
+  },
   keywords: "speleologia, grotte, prenotazione, escursioni, calabria, puglia, sardegna, friuli",
 };
 

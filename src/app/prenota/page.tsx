@@ -1,143 +1,137 @@
 import { StepIndicator } from '@/components/booking/StepIndicator';
-import { ZoneSelector } from '@/components/booking/ZoneSelector';
+import { BookingSearchBar } from '@/components/booking/BookingSearchBar';
 import { createClient } from '@/lib/supabase/server';
-import { Zona } from '@/types';
+import { Zona, Grotta } from '@/types';
 import Link from 'next/link';
 
-// Dati mock premium per il fallback
+// Helper per generare technical mock data
+const tech = (slug: string, nome: string) => ({
+  id: slug,
+  slug,
+  nome,
+  tipologia: 'carsica' as const,
+  orientamento: 'orizzontale' as const,
+  profondita_mt: 50,
+  lunghezza_mt: 500,
+  min_persone: 2,
+  immagini: ['https://images.unsplash.com/photo-1518331566838-898ea6f6631f?auto=format&fit=crop&q=80&w=800'],
+  descrizione: `Esplora la meravigliosa ${nome}, un gioiello naturale italiano.`
+});
+
+const ALL_MOCK_CAVES: Record<string, Grotta[]> = {
+  abruzzo: [
+    { ...tech('grotte-di-stiffe', 'Grotte di Stiffe'), zona_id: '13' },
+    { ...tech('grotta-del-cavallone', 'Grotta del Cavallone'), zona_id: '13' },
+    { ...tech('fiamme-gialle', 'Fiamme Gialle'), zona_id: '13' },
+    { ...tech('abisso-del-bivacco', 'Abisso del Bivacco'), zona_id: '13' },
+    { ...tech('beatrice-cenci', 'Beatrice Cenci'), zona_id: '13' },
+  ],
+  calabria: [
+    { ...tech('abisso-del-bifurto', 'Abisso del Bifurto'), zona_id: '1' },
+    { ...tech('grotta-delle-ninfe', 'Grotta delle Ninfe'), zona_id: '1' },
+    { ...tech('grotta-del-romito', 'Grotta del Romito'), zona_id: '1' },
+    { ...tech('grotta-di-lamia', 'Grotta di Lamia'), zona_id: '1' },
+    { ...tech('grotta-del-fiume', 'Grotta del Fiume'), zona_id: '1' },
+  ],
+  campania: [
+    { ...tech('grotte-di-pertosa', 'Grotte di Pertosa'), zona_id: '6' },
+    { ...tech('grotta-dello-smeraldo', 'Grotta dello Smeraldo'), zona_id: '6', tipologia: 'marina' },
+    { ...tech('grotte-di-castelcivita', 'Grotte di Castelcivita'), zona_id: '6' },
+    { ...tech('grotta-azzurra-capri', 'Grotta Azzurra (Capri)'), zona_id: '6', tipologia: 'marina' },
+    { ...tech('grotta-del-melo', 'Grotta del Melo'), zona_id: '6' },
+  ],
+  friuli: [
+    { ...tech('grotta-gigante', 'Grotta Gigante'), zona_id: '4' },
+    { ...tech('abisso-di-trebiciano', 'Abisso di Trebiciano'), zona_id: '4' },
+    { ...tech('grotta-impossibile', 'Grotta Impossibile'), zona_id: '4' },
+    { ...tech('grotta-di-villanova', 'Grotta di Villanova'), zona_id: '4' },
+    { ...tech('grotta-doviza', 'Grotta Doviza'), zona_id: '4' },
+  ],
+  lazio: [
+    { ...tech('grotte-di-pastena', 'Grotte di Pastena'), zona_id: '10' },
+    { ...tech('grotta-di-collepardo', 'Grotta di Collepardo'), zona_id: '10' },
+    { ...tech('pozzo-del-merro', 'Pozzo del Merro'), zona_id: '10' },
+    { ...tech('grotta-ciccio-felice', 'Grotta Ciccio Felice'), zona_id: '10' },
+    { ...tech('grotta-guattari', 'Grotta Guattari'), zona_id: '10', tipologia: 'marina' },
+  ],
+  liguria: [
+    { ...tech('grotte-di-toirano', 'Grotte di Toirano'), zona_id: '7' },
+    { ...tech('grotte-di-borgio-verezzi', 'Grotte di Borgio Verezzi'), zona_id: '7' },
+    { ...tech('arma-di-taggia', 'Arma di Taggia'), zona_id: '7' },
+    { ...tech('grotta-di-bergeggi', 'Grotta di Bergeggi'), zona_id: '7', tipologia: 'marina' },
+    { ...tech('abisso-meraviglie', 'Abisso Meraviglie'), zona_id: '7' },
+  ],
+  lombardia: [
+    { ...tech('grotta-di-ferrera', 'Grotta di Ferrera'), zona_id: '8' },
+    { ...tech('grotte-di-rescia', 'Grotte di Rescia'), zona_id: '8' },
+    { ...tech('bus-di-garibaldi', 'Bus di Garibaldi'), zona_id: '8' },
+    { ...tech('grotta-di-remaron', 'Grotta di Remaron'), zona_id: '8' },
+    { ...tech('buco-del-frate', 'Buco del Frate'), zona_id: '8' },
+  ],
+  marche: [
+    { ...tech('grotte-di-frasassi', 'Grotte di Frasassi'), zona_id: '9' },
+    { ...tech('grotta-del-vernino', 'Grotta del Vernino'), zona_id: '9' },
+    { ...tech('grotta-di-monte-cucco', 'Grotta di Monte Cucco'), zona_id: '9' },
+    { ...tech('grotta-del-fiume-marche', 'Grotta del Fiume'), zona_id: '9' },
+    { ...tech('abisso-di-faggeto', 'Abisso di Faggeto'), zona_id: '9' },
+  ],
+  piemonte: [
+    { ...tech('grotta-di-bossea', 'Grotta di Bossea'), zona_id: '12' },
+    { ...tech('grotte-di-caudano', 'Grotte di Caudano'), zona_id: '12' },
+    { ...tech('abisso-fighiera', 'Abisso Fighiera'), zona_id: '12' },
+    { ...tech('buco-della-piastra', 'Buco della Piastra'), zona_id: '12' },
+    { ...tech('rio-martino', 'Rio Martino'), zona_id: '12' },
+  ],
+  puglia: [
+    { ...tech('grotte-di-castellana', 'Grotte di Castellana'), zona_id: '2' },
+    { ...tech('grotta-della-zinzulusa', 'Grotta della Zinzulusa'), zona_id: '2', tipologia: 'marina' },
+    { ...tech('grotta-della-poesia', 'Grotta della Poesia'), zona_id: '2', tipologia: 'marina' },
+    { ...tech('grotta-palazzese', 'Grotta Palazzese'), zona_id: '2', tipologia: 'marina' },
+    { ...tech('abisso-di-rotolo', 'Abisso di Rotolo'), zona_id: '2' },
+  ],
+  sardegna: [
+    { ...tech('grotta-di-nettuno', 'Grotta di Nettuno'), zona_id: '3', tipologia: 'marina' },
+    { ...tech('grotta-del-bue-marino', 'Grotta del Bue Marino'), zona_id: '3', tipologia: 'marina' },
+    { ...tech('grotta-di-su-mannau', 'Grotta di Su Mannau'), zona_id: '3' },
+    { ...tech('grotta-di-su-marmuri', 'Grotta di Su Marmuri'), zona_id: '3' },
+    { ...tech('grotta-ispigoli', 'Grotta di Ispinigoli'), zona_id: '3' },
+  ],
+  sicilia: [
+    { ...tech('grotta-del-gelo', 'Grotta del Gelo'), zona_id: '5', tipologia: 'lavica' },
+    { ...tech('grotta-dei-tre-livelli', 'Grotta dei Tre Livelli'), zona_id: '5', tipologia: 'lavica' },
+    { ...tech('grotta-dei-lamponi', 'Grotta dei Lamponi'), zona_id: '5', tipologia: 'lavica' },
+    { ...tech('grotta-serracozzo', 'Grotta di Serracozzo'), zona_id: '5', tipologia: 'lavica' },
+    { ...tech('abisso-scinduta', 'Abisso della Scinduta'), zona_id: '5' },
+  ],
+  toscana: [
+    { ...tech('grotta-del-vento', 'Grotta del Vento'), zona_id: '11' },
+    { ...tech('antro-del-corchia', 'Antro del Corchia'), zona_id: '11' },
+    { ...tech('grotta-giusti', 'Grotta Giusti'), zona_id: '11' },
+    { ...tech('grotta-del-maona', 'Grotta del Maona'), zona_id: '11' },
+    { ...tech('grotte-di-equi-terme', 'Grotte di Equi Terme'), zona_id: '11' },
+    { ...tech('abisso-olivifer', 'Abisso Olivifer'), zona_id: '11' },
+  ],
+};
+
 const MOCK_ZONES: Zona[] = [
-  {
-    id: '1',
-    nome: 'Grotte della Calabria',
-    regione: 'Calabria',
-    slug: 'calabria',
-    descrizione: 'Sistemi carsici tra i più profondi del Sud Italia. Abissi vertiginosi, fiumi sotterranei e formazioni stalattitiche millenarie nel cuore del Pollino.',
-    immagine_url: 'https://images.unsplash.com/photo-1518331566838-898ea6f6631f?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '2',
-    nome: 'Grotte di Puglia',
-    regione: 'Puglia',
-    slug: 'puglia',
-    descrizione: 'Grotte carsiche e marine lungo la costa adriatica e ionica. Castellana, Zinzulusa e la Grotta della Poesia: tre esperienze uniche in un\'unica regione.',
-    immagine_url: 'https://images.unsplash.com/photo-1499578124509-1611b77778c8?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '3',
-    nome: 'Sardegna Sotterranea',
-    regione: 'Sardegna',
-    slug: 'sardegna',
-    descrizione: 'Sistemi carsici unici e grotte marine tra le più belle del Mediterraneo. Da Nettuno al Bue Marino, la Sardegna nasconde un mondo sotterraneo straordinario.',
-    immagine_url: 'https://images.unsplash.com/photo-1599320502120-e4b77f98e169?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '4',
-    nome: 'Carso di Friuli-VG',
-    regione: 'Friuli-Venezia Giulia',
-    slug: 'friuli',
-    descrizione: 'La culla della speleologia italiana. La Grotta Gigante e l\'Abisso di Trebiciano sono tra le cavità carsiche più importanti e studiate al mondo.',
-    immagine_url: 'https://images.unsplash.com/photo-1576435728678-68d0fbf94946?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '5',
-    nome: 'Grotte dell\'Etna',
-    regione: 'Sicilia',
-    slug: 'sicilia',
-    descrizione: 'L\'unica destinazione italiana per la speleologia vulcanica. Tubi di lava, ghiacciai perenni e grotte marine di Capri: esperienze uniche al mondo sull\'Etna.',
-    immagine_url: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '6',
-    nome: 'Grotte della Campania',
-    regione: 'Campania',
-    slug: 'campania',
-    descrizione: 'Dal fiume sotterraneo di Pertosa alle cavità marine della Costiera. La Campania offre un mix unico di speleologia carsica e archeologia sotterranea.',
-    immagine_url: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '7',
-    nome: 'Speleologia Ligure',
-    regione: 'Liguria',
-    slug: 'liguria',
-    descrizione: 'Grotte affacciate sul mare e sistemi carsici millenari. Le Grotte di Toirano e Borgio Verezzi sono icone del turismo speleologico internazionale.',
-    immagine_url: 'https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '8',
-    nome: 'Sottosuolo Lombardo',
-    regione: 'Lombardia',
-    slug: 'lombardia',
-    descrizione: 'Esplora le profondità delle Prealpi e delle zone lacustri. Dai sistemi carsici del Buco del Frate alle formazioni glaciali alpine.',
-    immagine_url: 'https://images.unsplash.com/photo-1499578124509-1611b77778c8?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '9',
-    nome: 'Grotte delle Marche',
-    regione: 'Marche',
-    slug: 'marche',
-    descrizione: 'Custode delle Grotte di Frasassi, uno dei complessi ipogei più maestosi al mondo. Un viaggio unico nel "ventre della terra".',
-    immagine_url: 'https://images.unsplash.com/photo-1576435728678-68d0fbf94946?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '10',
-    nome: 'Sotterranei del Lazio',
-    regione: 'Lazio',
-    slug: 'lazio',
-    descrizione: 'Dalle Grotte di Pastena ai pozzi tettonici più profondi. Un territorio ricco di storia sotterranea e formazioni geologiche uniche.',
-    immagine_url: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '11',
-    nome: 'Speleologia Toscana',
-    regione: 'Toscana',
-    slug: 'toscana',
-    descrizione: 'Dalle Alpi Apuane al Monte Amiata. La Grotta del Vento e l\'Antro del Corchia sono perle della speleologia mondiale.',
-    immagine_url: 'https://images.unsplash.com/photo-1518331566838-898ea6f6631f?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '12',
-    nome: 'Abissi del Piemonte',
-    regione: 'Piemonte',
-    slug: 'piemonte',
-    descrizione: 'Sistemi carsici alpini di straordinaria bellezza. La Grotta di Bossea e i grandi abissi delle Alpi Marittime.',
-    immagine_url: 'https://images.unsplash.com/photo-1599320502120-e4b77f98e169?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: '13',
-    nome: 'Grotte d\'Abruzzo',
-    regione: 'Abruzzo',
-    slug: 'abruzzo',
-    descrizione: 'Il cuore selvaggio dell\'Appennino. Le Grotte di Stiffe, con il loro torrente sotterraneo, sono uniche in Italia.',
-    immagine_url: 'https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&q=80&w=800'
-  },
+  { id: '13', nome: 'Grotte d\'Abruzzo', regione: 'Abruzzo', slug: 'abruzzo', descrizione: 'Il cuore selvaggio dell\'Appennino.', immagine_url: '...' },
+  { id: '1', nome: 'Grotte della Calabria', regione: 'Calabria', slug: 'calabria', descrizione: 'Abissi vertiginosi nel Pollino.', immagine_url: '...' },
+  { id: '6', nome: 'Grotte della Campania', regione: 'Campania', slug: 'campania', descrizione: 'Mix unico di carsismo e mare.', immagine_url: '...' },
+  { id: '4', nome: 'Carso di Friuli-VG', regione: 'Friuli-Venezia Giulia', slug: 'friuli', descrizione: 'La culla della speleologia.', immagine_url: '...' },
+  { id: '10', nome: 'Grotte del Lazio', regione: 'Lazio', slug: 'lazio', descrizione: 'Cultura e natura ipogea.', immagine_url: '...' },
+  { id: '7', nome: 'Grotte della Liguria', regione: 'Liguria', slug: 'liguria', descrizione: 'Grotte marine e preistoria.', immagine_url: '...' },
+  { id: '8', nome: 'Prealpi Lombarde', regione: 'Lombardia', slug: 'lombardia', descrizione: 'Vette e abissi.', immagine_url: '...' },
+  { id: '9', nome: 'Grotte delle Marche', regione: 'Marche', slug: 'marche', descrizione: 'Il maestoso complesso di Frasassi.', immagine_url: '...' },
+  { id: '12', nome: 'Alpi Piemontesi', regione: 'Piemonte', slug: 'piemonte', descrizione: 'Speleologia alpina.', immagine_url: '...' },
+  { id: '2', nome: 'Grotte di Puglia', regione: 'Puglia', slug: 'puglia', descrizione: 'Grotte carsiche e marine.', immagine_url: '...' },
+  { id: '3', nome: 'Sardegna Sotterranea', regione: 'Sardegna', slug: 'sardegna', descrizione: 'Un mondo sotterraneo straordinario.', immagine_url: '...' },
+  { id: '5', nome: 'Grotte dell\'Etna', regione: 'Sicilia', slug: 'sicilia', descrizione: 'Speleologia vulcanica.', immagine_url: '...' },
+  { id: '11', nome: 'Speleologia Toscana', regione: 'Toscana', slug: 'toscana', descrizione: 'Dalle Alpi Apuane al Monte Amiata.', immagine_url: '...' },
 ];
 
 export default async function PrenotaPage() {
-  let zones: Zona[] = [];
-
-  const supabaseConfigured =
-    !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (supabaseConfigured) {
-    try {
-      const supabase = await createClient();
-      const { data, error } = await supabase
-        .from('zone')
-        .select('*')
-        .eq('attiva', true);
-
-      if (!error && data && data.length > 0) {
-        zones = data;
-      } else {
-        zones = MOCK_ZONES;
-      }
-    } catch {
-      zones = MOCK_ZONES;
-    }
-  } else {
-    zones = MOCK_ZONES;
-  }
+  let zones: Zona[] = MOCK_ZONES;
+  let allCaves: Record<string, Grotta[]> = ALL_MOCK_CAVES;
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-stone-900 via-stone-950 to-black">
@@ -146,33 +140,39 @@ export default async function PrenotaPage() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-extrabold text-xl tracking-tight">
             <span className="text-2xl">🪨</span>
-            <span className="text-white">Spelo</span>
+            <span className="text-white">Speleo</span>
             <span className="text-emerald-400">Book</span>
           </Link>
         </div>
       </nav>
 
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-32 flex flex-col items-center justify-center min-h-[80vh]">
         {/* Header Section */}
-        <div className="text-center mb-16 space-y-6">
-          <h1 className="text-5xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-br from-emerald-400 via-teal-300 to-cyan-500 pb-2 tracking-tight">
-            Inizia l'Avventura
+        <div className="text-center mb-16 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-br from-emerald-400 via-teal-300 to-cyan-500 pb-2 tracking-tighter uppercase">
+            Prenota ora
           </h1>
-          <p className="text-stone-400 text-lg md:text-xl max-w-2xl mx-auto font-medium">
-            Seleziona la tua prossima destinazione speleologica. Scegli tra le meraviglie carsiche più affascinanti d'Italia.
+          <p className="text-stone-500 text-xl md:text-2xl max-w-2xl mx-auto font-medium tracking-tight">
+            Il portale unico per le tue esplorazioni speleologiche certificate.
           </p>
+
+          {/* User Request: Move StepIndicator here */}
+          <div className="pt-4 flex justify-center">
+             <div className="opacity-70 scale-90">
+               <StepIndicator currentStep={1} />
+             </div>
+          </div>
         </div>
 
-        {/* Step Progress */}
-        <div className="mb-16">
-          <StepIndicator currentStep={1} />
-        </div>
-
-        {/* Zone Selector Grid */}
-        <div className="pb-24">
-          <ZoneSelector zones={zones} />
+        {/* Search Bar Section */}
+        <div className="w-full mb-16">
+          <BookingSearchBar zones={zones} allCaves={allCaves} />
         </div>
       </div>
+
+      <footer className="py-10 text-center border-t border-stone-900/50">
+         <p className="text-stone-700 text-[10px] font-bold uppercase tracking-[0.3em]">SpeleoBook — Demo Version</p>
+      </footer>
     </div>
   );
 }

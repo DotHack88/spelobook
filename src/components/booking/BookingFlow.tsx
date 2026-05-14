@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Grotta, TipologiaGrotta } from '@/types';
 import { useBookingStore } from '@/hooks/useBookingStore';
 import { CaveCard } from './CaveCard';
@@ -34,8 +35,18 @@ const ACTIVE_FILTRI: Record<string, string> = {
 };
 
 export function BookingFlow({ caves }: { caves: Grotta[] }) {
-  const { step, setGrotta, grotta, dateRange } = useBookingStore();
+  const { step, setGrotta, grotta, dateRange, nextStep } = useBookingStore();
+  const searchParams = useSearchParams();
   const [filtro, setFiltro] = useState<TipologiaGrotta | 'tutte'>('tutte');
+
+  // Sincronizza lo step dall'URL se presente (usato dalla nuova barra di ricerca)
+  useEffect(() => {
+    const urlStep = searchParams.get('step');
+    if (urlStep === '3' && step < 3) {
+      // Se veniamo dalla barra di ricerca, siamo già allo step 3 (Grotte e Zone impostate)
+      useBookingStore.setState({ step: 3 });
+    }
+  }, [searchParams, step]);
 
   const caveFiltrate = filtro === 'tutte'
     ? caves
@@ -128,11 +139,16 @@ export function BookingFlow({ caves }: { caves: Grotta[] }) {
             {/* Right side: Form */}
             <div className="lg:col-span-8 bg-stone-900/60 backdrop-blur-xl border border-stone-800 rounded-3xl p-8 shadow-2xl">
               <GroupForm onSubmit={(data) => {
-                if (!dateRange?.from || !dateRange?.to) {
-                  alert('Per favore, seleziona le date di check-in e check-out dal calendario prima di continuare.');
+                const state = useBookingStore.getState();
+                if (!state.dateRange?.from || !state.dateRange?.to) {
+                  alert('Per favore, seleziona le date dal calendario.');
                   return;
                 }
-                useBookingStore.getState().setGruppo(data);
+                if (!state.fascia_oraria) {
+                  alert('Per favore, seleziona una fascia oraria (indicativa).');
+                  return;
+                }
+                state.setGruppo(data);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }} />
             </div>

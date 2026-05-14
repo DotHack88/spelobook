@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Search, 
   Filter, 
@@ -80,16 +80,57 @@ const MOCK_PRENOTAZIONI = [
 ];
 
 export default function AdminPrenotazioni() {
-  const [prenotazioni, setPrenotazioni] = useState(MOCK_PRENOTAZIONI);
+  const [prenotazioni, setPrenotazioni] = useState<any[]>(MOCK_PRENOTAZIONI);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('tutte');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    async function fetchPrenotazioni() {
+      try {
+        const res = await fetch('/api/prenotazioni');
+        const data = await res.json();
+        
+        const mappedData = data.map((p: any) => ({
+          id: p.id,
+          codice: p.codice_prenotazione || `SPELO-${p.id.substring(0,6).toUpperCase()}`,
+          gruppo: p.nome_gruppo,
+          grotta: p.grotta_id,
+          regione: 'Da definire',
+          checkin: p.data_checkin,
+          checkout: p.data_checkout,
+          persone: p.num_persone,
+          referente: `${p.referente_nome} ${p.referente_cognome}`,
+          email: p.referente_email,
+          telefono: p.referente_telefono,
+          stato: p.stato,
+          data_creazione: new Date(p.created_at).toLocaleDateString('it-IT')
+        }));
+
+        setPrenotazioni([...mappedData, ...MOCK_PRENOTAZIONI]);
+      } catch (err) {
+        console.error('Errore fetch:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPrenotazioni();
+  }, []);
 
   const updateStato = (id: string, nuovoStato: string) => {
     setPrenotazioni(prev => prev.map(p => p.id === id ? { ...p, stato: nuovoStato } : p));
   };
 
-  const filtered = filter === 'tutte' 
-    ? prenotazioni 
-    : prenotazioni.filter(p => p.stato === filter);
+  const filtered = prenotazioni.filter(p => {
+    const matchesFilter = filter === 'tutte' || p.stato === filter;
+    const matchesSearch = 
+      p.codice.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.gruppo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.grotta.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.referente.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    return matchesFilter && matchesSearch;
+  });
 
   const getStatusBadge = (stato: string) => {
     switch (stato) {
@@ -111,7 +152,19 @@ export default function AdminPrenotazioni() {
           <h1 className="text-3xl font-bold text-white">Gestione Prenotazioni</h1>
           <p className="text-stone-400">Visualizza, conferma o rifiuta le richieste degli utenti.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Barra di Ricerca */}
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-500 group-focus-within:text-emerald-500 transition-colors" size={16} />
+            <input 
+              type="text" 
+              placeholder="Cerca codice, gruppo, grotta..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-stone-900/60 border border-stone-800 rounded-xl pl-10 pr-4 py-2 text-sm text-white placeholder:text-stone-600 focus:border-emerald-500 focus:outline-none w-full md:w-64 transition-all"
+            />
+          </div>
+
           <div className="bg-stone-900/60 border border-stone-800 rounded-xl px-4 py-2 flex items-center gap-2">
             <Filter size={16} className="text-stone-500" />
             <select 
