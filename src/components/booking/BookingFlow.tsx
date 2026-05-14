@@ -38,15 +38,23 @@ export function BookingFlow({ caves }: { caves: Grotta[] }) {
   const { step, setGrotta, grotta, dateRange, nextStep } = useBookingStore();
   const searchParams = useSearchParams();
   const [filtro, setFiltro] = useState<TipologiaGrotta | 'tutte'>('tutte');
+  const [hasHydrated, setHasHydrated] = useState(false);
+
+  // Forza l'idratazione dello store persistito
+  useEffect(() => {
+    setHasHydrated(true);
+  }, []);
 
   // Sincronizza lo step dall'URL se presente (usato dalla nuova barra di ricerca)
   useEffect(() => {
+    if (!hasHydrated) return;
     const urlStep = searchParams.get('step');
     if (urlStep === '3' && step < 3) {
-      // Se veniamo dalla barra di ricerca, siamo già allo step 3 (Grotte e Zone impostate)
       useBookingStore.setState({ step: 3 });
     }
-  }, [searchParams, step]);
+  }, [searchParams, step, hasHydrated]);
+
+  if (!hasHydrated) return null; // O un componente di loading
 
   const caveFiltrate = filtro === 'tutte'
     ? caves

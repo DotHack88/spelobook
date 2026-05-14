@@ -16,14 +16,16 @@ export function GroupForm({ onSubmit }: { onSubmit: (data: GroupFormData) => voi
   
   const form = useForm<GroupFormData>({ 
     resolver: zodResolver(groupSchema),
+    mode: 'onChange',
     defaultValues: (gruppo as GroupFormData) || {
       nome_gruppo: '',
       num_persone: 1,
       referente: { nome: '', cognome: '', telefono: '', email: '' },
-      referente2: { nome: '', cognome: '', telefono: '', email: '' },
       note: ''
     }
   });
+
+  const { isValid } = form.formState;
 
   // Aggiorna il form se il gruppo nello store cambia (es. dalla barra di ricerca)
   useEffect(() => {
@@ -41,11 +43,11 @@ export function GroupForm({ onSubmit }: { onSubmit: (data: GroupFormData) => voi
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Nome del gruppo</label>
+            <label className="text-sm font-medium">Nome del gruppo <span className="text-red-500">*</span></label>
             <Input {...form.register('nome_gruppo')} placeholder="es. CAI Sezione Milano" />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Numero partecipanti</label>
+            <label className="text-sm font-medium">Numero partecipanti <span className="text-red-500">*</span></label>
             <Input type="number" {...form.register('num_persone', { valueAsNumber: true })} />
           </div>
         </div>
@@ -56,45 +58,20 @@ export function GroupForm({ onSubmit }: { onSubmit: (data: GroupFormData) => voi
         <h3 className="text-lg font-semibold mb-4">👤 Referente Principale</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Nome</label>
+            <label className="text-sm font-medium">Nome <span className="text-red-500">*</span></label>
             <Input {...form.register('referente.nome')} />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Cognome</label>
+            <label className="text-sm font-medium">Cognome <span className="text-red-500">*</span></label>
             <Input {...form.register('referente.cognome')} />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Cellulare</label>
+            <label className="text-sm font-medium">Cellulare <span className="text-red-500">*</span></label>
             <Input type="tel" {...form.register('referente.telefono')} placeholder="+39 333 1234567" />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Email</label>
+            <label className="text-sm font-medium">Email <span className="text-red-500">*</span></label>
             <Input type="email" {...form.register('referente.email')} placeholder="nome@email.it" />
-          </div>
-        </div>
-      </section>
-
-      {/* Sezione: Referente Secondario (opzionale) */}
-      <section>
-        <h3 className="text-lg font-semibold mb-2">👤 Referente Secondario
-          <span className="text-sm font-normal text-stone-400 ml-2">(opzionale)</span>
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Nome</label>
-            <Input {...form.register('referente2.nome')} />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Cognome</label>
-            <Input {...form.register('referente2.cognome')} />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Cellulare</label>
-            <Input type="tel" {...form.register('referente2.telefono')} />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Email</label>
-            <Input type="email" {...form.register('referente2.email')} />
           </div>
         </div>
       </section>
@@ -105,7 +82,15 @@ export function GroupForm({ onSubmit }: { onSubmit: (data: GroupFormData) => voi
         <Textarea {...form.register('note')} placeholder="Esigenze speciali, attrezzatura disponibile, domande..." />
       </section>
 
-      <Button type="submit" className="w-full">
+      <Button 
+        type="submit" 
+        disabled={!isValid}
+        className={`w-full py-6 text-lg font-bold rounded-2xl transition-all shadow-lg active:scale-[0.98] ${
+          isValid 
+            ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-500/20' 
+            : 'bg-stone-800 text-stone-500 cursor-not-allowed border-stone-700 shadow-none'
+        }`}
+      >
         Continua → Riepilogo
       </Button>
     </form>

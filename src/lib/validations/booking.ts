@@ -11,12 +11,6 @@ export const groupSchema = z.object({
   nome_gruppo:             z.string().min(2, 'Nome gruppo richiesto'),
   num_persone:             z.number().min(1).max(100),
   referente:               referenteSchema,
-  referente2: z.object({
-    nome:     z.string().optional(),
-    cognome:  z.string().optional(),
-    telefono: z.string().optional(),
-    email:    z.string().optional(),
-  }).optional(),
   note:                    z.string().optional(),
 });
 

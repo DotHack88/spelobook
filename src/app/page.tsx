@@ -20,17 +20,12 @@ const features = [
   {
     icon: <Users className="w-7 h-7" />,
     title: "Prenotazione di Gruppo",
-    desc: "Gestisci capogruppo, referente secondario e dati di tutti i partecipanti.",
+    desc: "Gestisci autonomamente la data in cui vuoi visitare la grotta!",
   },
   {
     icon: <ShieldCheck className="w-7 h-7" />,
     title: "Prenotazione Esclusiva",
     desc: "Garantiamo l'esclusività della grotta per il tuo gruppo durante la fascia oraria scelta.",
-  },
-  {
-    icon: <Mountain className="w-7 h-7" />,
-    title: "Tutti i Livelli",
-    desc: "Percorsi da facile a esperto. Filtra le grotte per il livello del tuo gruppo.",
   },
 ];
 
@@ -175,7 +170,7 @@ export default function Home() {
             <p className="text-stone-400 text-lg">Una demo interattiva per la pianificazione delle tue uscite.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {features.map((f) => (
               <div
                 key={f.title}

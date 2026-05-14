@@ -78,7 +78,6 @@ export interface BookingState {
     nome_gruppo: string;
     num_persone?: number;
     referente?: Referente;
-    referente2?: Partial<Referente>;
     note?: string;
   };
 }

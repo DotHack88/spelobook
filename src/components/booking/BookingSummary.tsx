@@ -6,8 +6,10 @@ import { MapPin, Users, Calendar as CalendarIcon, CheckCircle2, Loader2, AlertCi
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { it } from 'date-fns/locale';
+import { useRouter } from 'next/navigation';
 
 export function BookingSummary() {
+  const router = useRouter();
   const { zona, grotta, dateRange, gruppo, reset, prevStep } = useBookingStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -87,7 +89,7 @@ export function BookingSummary() {
           <p className="text-sm text-stone-400 mb-8 max-w-sm mx-auto">Conserva questo codice, ti servirà per qualsiasi comunicazione futura con il nostro team.</p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button onClick={() => { reset(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+            <Button onClick={() => { reset(); router.push('/prenota'); }} 
               className="rounded-full px-8 py-6 text-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/20">
               Nuova Prenotazione
             </Button>

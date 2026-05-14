@@ -64,10 +64,6 @@ export async function POST(req: Request) {
         referente_cognome:      data.referente.cognome,
         referente_telefono:     data.referente.telefono,
         referente_email:        data.referente.email,
-        referente2_nome:        data.referente2?.nome,
-        referente2_cognome:     data.referente2?.cognome,
-        referente2_telefono:    data.referente2?.telefono,
-        referente2_email:       data.referente2?.email,
         note:                   data.note,
       })
       .select()
