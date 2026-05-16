@@ -12,5 +12,12 @@
     "email": "roxas@live.it",
     "status": "approved",
     "created_at": "2026-05-14T20:16:57.232Z"
+  },
+  {
+    "id": "859u3m9",
+    "name": "Daniele Citer",
+    "email": "danielecit@yahoo.it",
+    "status": "pending",
+    "created_at": "2026-05-16T22:29:14.200Z"
   }
 ]
