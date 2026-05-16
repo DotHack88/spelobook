@@ -1,23 +1,27 @@
 export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
-import { getLocalUsers, saveLocalUsers } from '../route';
+import { createClient } from '@/lib/supabase/server';
 
 export async function PUT(req: Request, props: { params: Promise<{ id: string }> }) {
   try {
     const params = await props.params;
     const body = await req.json();
-    const localUsers = getLocalUsers();
+    const supabase = await createClient();
     
-    const index = localUsers.findIndex((u: any) => u.id === params.id);
-    if (index === -1) {
+    const { data, error } = await supabase
+      .from('utenti_registrati')
+      .update(body)
+      .eq('id', params.id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    if (!data) {
       return NextResponse.json({ error: 'Utente non trovato' }, { status: 404 });
     }
 
-    localUsers[index] = { ...localUsers[index], ...body };
-    saveLocalUsers(localUsers);
-
-    return NextResponse.json({ success: true, user: localUsers[index] });
+    return NextResponse.json({ success: true, user: data });
   } catch (err) {
     console.error('Errore aggiornamento utente:', err);
     return NextResponse.json({ error: 'Errore interno' }, { status: 500 });
@@ -27,10 +31,14 @@ export async function PUT(req: Request, props: { params: Promise<{ id: string }>
 export async function DELETE(req: Request, props: { params: Promise<{ id: string }> }) {
   try {
     const params = await props.params;
-    const localUsers = getLocalUsers();
+    const supabase = await createClient();
     
-    const newUsers = localUsers.filter((u: any) => u.id !== params.id);
-    saveLocalUsers(newUsers);
+    const { error } = await supabase
+      .from('utenti_registrati')
+      .delete()
+      .eq('id', params.id);
+
+    if (error) throw error;
 
     return NextResponse.json({ success: true });
   } catch (err) {
