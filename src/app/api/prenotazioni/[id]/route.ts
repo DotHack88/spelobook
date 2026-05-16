@@ -4,8 +4,11 @@ import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'prenotazioni.json');
+const DATA_FILE = process.env.VERCEL || process.env.NODE_ENV === 'production'
+  ? path.join(os.tmpdir(), 'prenotazioni.json')
+  : path.join(process.cwd(), 'data', 'prenotazioni.json');
 
 function getLocalBookings() {
   if (!fs.existsSync(DATA_FILE)) return [];

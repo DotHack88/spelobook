@@ -5,8 +5,12 @@ import { fullBookingSchema } from '@/lib/validations/booking';
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'prenotazioni.json');
+// Usa /tmp in produzione (Vercel) perché il file system è di sola lettura, altrimenti usa /data locale
+const DATA_FILE = process.env.VERCEL || process.env.NODE_ENV === 'production'
+  ? path.join(os.tmpdir(), 'prenotazioni.json')
+  : path.join(process.cwd(), 'data', 'prenotazioni.json');
 
 // Assicurati che la cartella data esista
 function ensureDataDir() {
